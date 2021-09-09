@@ -1,18 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 
 const NotFound = () => (
-  <div className="card text-center">
-    <div className="card-body">
-      <h5 className="card-title">
+  <Card className="text-center">
+    <Card.Body>
+      <Card.Title>
         Ошибка 404
-      </h5>
-      <p className="card-text">
+      </Card.Title>
+      <Card.Text>
         Такой страницы не существет
-      </p>
+      </Card.Text>
       <Link to="/">На главную</Link>
-    </div>
-  </div>
+    </Card.Body>
+  </Card>
 );
 
 export default NotFound;
