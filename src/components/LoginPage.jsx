@@ -1,14 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState, useRef, useEffect, useContext,
+} from 'react';
 import {
   Button, Form, Container, Row, Col, Card, FloatingLabel,
 } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import AuthContext from '../context.jsx';
 
 const LoginForm = () => {
-  // const location = useLocation();
-  const history = useHistory();
+  const auth = useContext(AuthContext);
   const [isAuthFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   useEffect(() => {
@@ -22,9 +24,9 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       try {
         setAuthFailed(false);
-        const response = await axios.post('/api/v1/login', values);
-        localStorage.userId = JSON.stringify(response.data);
-        history.replace('/');
+        const { data } = await axios.post('/api/v1/login', values);
+        localStorage.userId = JSON.stringify(data);
+        auth.setStatus({ username: data.username, token: data.token, isLoggedIn: true });
       } catch (err) {
         setAuthFailed(true);
       }
@@ -51,31 +53,29 @@ const LoginForm = () => {
 };
 
 const LoginPage = () => (
-  <Col className="d-flex flex-column h-100">
-    <Container className="container-fluid h-100">
-      <Row className="justify-content-center align-content-center h-100">
-        <Col md={8} xxl={6}>
-          <Card className="shadow-sm">
-            <Card.Body className="row p-5">
-              <Col md={6} className="d-flex align-items-center justify-content-center">
-                <h5>Место для логотипа</h5>
-              </Col>
-              <Col md={6} className="mt-3 mt-mb-0">
-                <h1 className="text-center mb-4">Войти</h1>
-                <LoginForm />
-              </Col>
-            </Card.Body>
-            <Card.Footer className="p-4">
-              <div className="text-center">
-                <span>Нет аккаунта?</span>
-                <Link to="/register">Регистрация</Link>
-              </div>
-            </Card.Footer>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  </Col>
+  <Container className="container-fluid h-100">
+    <Row className="justify-content-center align-content-center h-100">
+      <Col md={8} xxl={6}>
+        <Card className="shadow-sm">
+          <Card.Body className="row p-5">
+            <Col md={6} className="d-flex align-items-center justify-content-center">
+              <h5>Место для логотипа</h5>
+            </Col>
+            <Col md={6} className="mt-3 mt-mb-0">
+              <h1 className="text-center mb-4">Войти</h1>
+              <LoginForm />
+            </Col>
+          </Card.Body>
+          <Card.Footer className="p-4">
+            <div className="text-center">
+              <span>Нет аккаунта?</span>
+              <Link to="/register">Регистрация</Link>
+            </div>
+          </Card.Footer>
+        </Card>
+      </Col>
+    </Row>
+  </Container>
 );
 
 export default LoginPage;
