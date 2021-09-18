@@ -10,11 +10,12 @@ import Context from '../context.jsx';
 
 const App = () => {
   const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
+  const { lang, theme } = JSON.parse(localStorage.getItem('ui')) ?? { lang: 'en', theme: 'light' };
   const initialState = {
     user: { username, token },
     isLoggedIn: !!token,
-    lang: 'en',
-    theme: 'light',
+    lang,
+    theme,
   };
   const [globalState, setState] = useState(initialState);
 

@@ -16,6 +16,18 @@ export default {
       header: 'Sign In',
       register: 'Register',
       footer: "Don't have an account?",
+      link: 'Login page',
+    },
+    chat: {
+      channels: 'Channels',
+    },
+    messages: {
+      input: 'Write a message...',
+      send: 'Send',
+      counter: {
+        count: 'message',
+        count_plural: 'messages',
+      },
     },
     notFound: {
       header: 'Error 404',

@@ -16,6 +16,19 @@ export default {
       header: 'Войти',
       register: 'Регистрация',
       footer: 'Нет аккаунта?',
+      link: 'Cтраница входа',
+    },
+    chat: {
+      channels: 'Каналы',
+    },
+    messages: {
+      input: 'Введите сообщение...',
+      send: 'Отправить',
+      counter: {
+        count_0: 'соообщение',
+        count_1: 'соообщения',
+        count_2: 'соообщений',
+      },
     },
     notFound: {
       header: 'Ошибка 404',
