@@ -10,12 +10,9 @@ const chatSlice = createSlice({
   },
   reducers: {
     initChannels(state, { payload }) {
-      const { channels, currentChannelId } = payload;
+      const { channels, currentChannelId, messages } = payload;
       state.channels = channels;
       state.currentChannelId = currentChannelId;
-    },
-    initMessages(state, { payload }) {
-      const { messages } = payload;
       state.messages = messages;
     },
     setCurrentChannel(state, { payload }) {
@@ -25,6 +22,10 @@ const chatSlice = createSlice({
     addChannel(state, { payload }) {
       const { channel } = payload;
       state.channels.push(channel);
+    },
+    addMessage(state, { payload }) {
+      const { message } = payload;
+      state.messages.push(message);
     },
   },
 });
