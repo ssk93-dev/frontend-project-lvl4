@@ -9,6 +9,15 @@ import ChatPage from './ChatPage.jsx';
 import Header from './Header.jsx';
 import Context from '../context.jsx';
 import { actions } from '../store/chatSlice.js';
+import getModal from './modals/index.js';
+
+const renderModal = ({ modal }, hideModal) => {
+  if (!modal.type) {
+    return null;
+  }
+  const Component = getModal(modal.type);
+  return <Component modalInfo={modal} onHide={hideModal} />;
+};
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
@@ -18,16 +27,40 @@ const App = ({ socket }) => {
     user: { username, token },
     isLoggedIn: !!token,
     socket,
-    lang,
-    theme,
+    ui: {
+      lang,
+      theme,
+    },
+    modal: { type: null, item: null },
   };
   const [globalState, setState] = useState(initialState);
+  const hideModal = () => setState((prevState) => (
+    {
+      ...prevState,
+      modal: {
+        show: false,
+        type: null,
+        item: null,
+      },
+    }
+  ));
+  const showModal = (type, item = null) => setState((prevState) => (
+    {
+      ...prevState,
+      modal: {
+        show: true,
+        type,
+        item,
+      },
+    }
+  ));
   useEffect(() => {
     socket.on('newMessage', (messageWithId) => dispatch(actions.addMessage({ message: messageWithId })));
+    socket.on('newChannel', (channelWithId) => dispatch(actions.addChannel({ channel: channelWithId })));
   }, []);
 
   return (
-    <Context.Provider value={{ globalState, setState }}>
+    <Context.Provider value={{ globalState, setState, showModal }}>
       <Header />
       <Router>
         <Switch>
@@ -42,6 +75,7 @@ const App = ({ socket }) => {
           </Route>
         </Switch>
       </Router>
+      {renderModal(globalState, hideModal)}
     </Context.Provider>
   );
 };
