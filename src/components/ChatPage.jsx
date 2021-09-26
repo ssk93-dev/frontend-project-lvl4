@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Container, Row, Col,
@@ -7,7 +7,6 @@ import axios from 'axios';
 import { actions } from '../store/chatSlice.js';
 import ChannelsList from './ChannelsList.jsx';
 import MessagesBox from './MessagesBox.jsx';
-import Context from '../context.jsx';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -18,8 +17,6 @@ const getAuthHeader = () => {
 };
 
 const ChatPage = () => {
-  const { globalState } = useContext(Context);
-  const { socket } = globalState;
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchContent = async () => {
@@ -32,7 +29,6 @@ const ChatPage = () => {
       }
     };
     fetchContent();
-    socket.on('newMessage', (messageWithId) => dispatch(actions.addMessage({ message: messageWithId })));
   }, []);
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
@@ -7,8 +8,10 @@ import NotFound from './NotFound.jsx';
 import ChatPage from './ChatPage.jsx';
 import Header from './Header.jsx';
 import Context from '../context.jsx';
+import { actions } from '../store/chatSlice.js';
 
 const App = ({ socket }) => {
+  const dispatch = useDispatch();
   const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
   const { lang, theme } = JSON.parse(localStorage.getItem('ui')) ?? { lang: 'en', theme: 'light' };
   const initialState = {
@@ -19,7 +22,9 @@ const App = ({ socket }) => {
     theme,
   };
   const [globalState, setState] = useState(initialState);
-  console.log('App');
+  useEffect(() => {
+    socket.on('newMessage', (messageWithId) => dispatch(actions.addMessage({ message: messageWithId })));
+  }, []);
 
   return (
     <Context.Provider value={{ globalState, setState }}>

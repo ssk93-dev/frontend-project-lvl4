@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,8 @@ const MessagesBox = () => {
   const currentChannel = _.find(channels, { id: currentChannelId });
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
   const { t } = useTranslation();
+  const messagesEndRef = useRef(null);
+  useEffect(() => messagesEndRef.current.scrollIntoView({ behavior: 'smooth' }), [messages]);
   return (
     <>
       <div className="d-flex flex-column h-100">
@@ -25,6 +27,7 @@ const MessagesBox = () => {
               {`: ${message.body}`}
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
         <div className="mt-auto px-5 py-3">
           <MessageForm />

@@ -24,7 +24,7 @@ const MessageForm = () => {
   });
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  });
   return (
     <Form onSubmit={formik.handleSubmit}>
       <InputGroup>
