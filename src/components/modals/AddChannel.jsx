@@ -10,7 +10,6 @@ const AddChannel = (props) => {
   const dispatch = useDispatch();
   const { socket } = globalState;
   const handleSubmit = ({ onHide }) => (values) => {
-    console.log(values);
     socket.emit('newChannel', { name: values.body });
     socket.once('newChannel', ({ id }) => dispatch(actions.setCurrentChannel({ id })));
     onHide();
@@ -30,8 +29,8 @@ const AddChannel = (props) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-3">
+        <Form onSubmit={formik.handleSubmit} id="addChannel">
+          <Form.Group>
             <Form.Control
               required
               ref={inputRef}
@@ -41,12 +40,12 @@ const AddChannel = (props) => {
               name="body"
             />
           </Form.Group>
-          <div className="d-flex justify-content-end">
-            <Button type="button" variant="secondary" className="me-2 mb-3" onClick={onHide}>Cancel</Button>
-            <Button type="submit" variant="primary" className="mb-3">Add</Button>
-          </div>
         </Form>
       </Modal.Body>
+      <Modal.Footer className="d-flex justify-content-end">
+        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>Cancel</Button>
+        <Button form="addChannel" type="submit" variant="primary">Add</Button>
+      </Modal.Footer>
     </Modal>
   );
 };

@@ -22,20 +22,32 @@ const ChannelsList = () => {
       <ul className="nav flex-column nav-pills nav-fill px-2">
         {channels.map((channel) => (
           <li className="nav-item w-100" key={channel.id}>
-            <button
-              type="button"
-              className={cn({
-                'w-100': true,
-                'rounded-0': true,
-                'text-start': true,
-                btn: true,
-                'btn-secondary': channel.id === currentChannelId,
-              })}
-              onClick={handleSetChannel(channel.id)}
-            >
-              <span className="me-1">#</span>
-              {channel.name}
-            </button>
+            <div role="group" className="d-flex btn-group">
+              <button
+                type="button"
+                className={cn({
+                  'w-100': true,
+                  'rounded-0': true,
+                  'text-start': true,
+                  btn: true,
+                  'btn-secondary': channel.id === currentChannelId,
+                })}
+                onClick={handleSetChannel(channel.id)}
+              >
+                <span className="me-1">#</span>
+                {channel.name}
+              </button>
+              {channel.removable ? (
+                <>
+                  <button type="button" className="btn rounded-0 btn-warning" onClick={() => showModal('renaming', channel)}>
+                    $
+                  </button>
+                  <button type="button" className="btn rounded-0 btn-danger" onClick={() => showModal('removing', channel)}>
+                    x
+                  </button>
+                </>
+              ) : null}
+            </div>
           </li>
         ))}
       </ul>

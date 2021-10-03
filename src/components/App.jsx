@@ -57,6 +57,8 @@ const App = ({ socket }) => {
   useEffect(() => {
     socket.on('newMessage', (messageWithId) => dispatch(actions.addMessage({ message: messageWithId })));
     socket.on('newChannel', (channelWithId) => dispatch(actions.addChannel({ channel: channelWithId })));
+    socket.on('removeChannel', (data) => dispatch(actions.removeChannel(data)));
+    socket.on('renameChannel', (channel) => dispatch(actions.renameChannel(channel)));
   }, []);
 
   return (
