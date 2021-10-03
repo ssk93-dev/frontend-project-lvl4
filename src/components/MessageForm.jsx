@@ -18,7 +18,7 @@ const MessageForm = () => {
       text: '',
     },
     onSubmit: (values) => {
-      socket.emit('newMessage', { username: user.username, channelId: currentChannelId, body: values.text }, (response) => console.log(response.status));
+      socket.emit('newMessage', { username: user.username, channelId: currentChannelId, body: values.text });
       formik.resetForm();
     },
   });

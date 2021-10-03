@@ -1,21 +1,32 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
+import * as yup from 'yup';
+import { useSelector } from 'react-redux';
 import Context from '../../context.jsx';
+import getChannelsNames from '../../store/selectors.js';
 
 const RenameChannel = (props) => {
   const { globalState } = useContext(Context);
   const { socket } = globalState;
+  const channelsNames = useSelector(getChannelsNames);
   const handleSubmit = ({ onHide, modalInfo }) => (values) => {
-    socket.emit('renameChannel', { id: modalInfo.item.id, name: values.body });
+    socket.emit('renameChannel', { id: modalInfo.item.id, name: values.name });
     onHide();
   };
 
   const { modalInfo, onHide } = props;
-  const formik = useFormik({ onSubmit: handleSubmit(props), initialValues: { body: '' } });
+  const formik = useFormik({
+    onSubmit: handleSubmit(props),
+    initialValues: { name: modalInfo.item.name },
+    validationSchema: yup.object().shape({
+      name: yup.string().required().max(10).notOneOf(channelsNames),
+    }),
+  });
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
+    inputRef.current.select();
   }, []);
 
   return (
@@ -31,15 +42,17 @@ const RenameChannel = (props) => {
               ref={inputRef}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.body}
-              name="body"
+              value={formik.values.name}
+              name="name"
+              isInvalid={formik.errors.name}
             />
+            <Form.Control.Feedback tooltip type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-end">
         <Button type="button" variant="secondary" className="me-2" onClick={onHide}>Cancel</Button>
-        <Button form="renameChannel" type="submit" variant="primary">Rename</Button>
+        <Button form="renameChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>Rename</Button>
       </Modal.Footer>
     </Modal>
   );

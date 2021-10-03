@@ -60,7 +60,7 @@ const LoginForm = () => {
       <Form.Group className="mb-3">
         <FloatingLabel controlId="password" label={t('login.password')}>
           <Form.Control type="password" required placeholder="password" onChange={formik.handleChange} value={formik.values.password} isInvalid={isAuthFailed} />
-          <Form.Control.Feedback className="invalid-tooltip" type="invalid">{t(feedback)}</Form.Control.Feedback>
+          <Form.Control.Feedback tooltip type="invalid">{t(feedback)}</Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100 mb-3" disabled={formik.isSubmitting}>
