@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   Form, InputGroup, Button,
 } from 'react-bootstrap';
+import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +32,12 @@ const MessageForm = () => {
       <InputGroup>
         <Form.Label visuallyHidden>{t('messages.input')}</Form.Label>
         <Form.Control ref={inputRef} name="text" type="text" placeholder={t('messages.input')} onChange={formik.handleChange} value={formik.values.text} />
-        <Button type="submit" variant="outline-secondary">{t('messages.send')}</Button>
+        <InputGroup.Text>
+          <Button className="btn-group-vertical" type="submit" variant="outline" disabled={!formik.values.text || formik.isSubmitting}>
+            <ArrowRightSquare size={20} />
+            <span className="visually-hidden">{t('messages.send')}</span>
+          </Button>
+        </InputGroup.Text>
       </InputGroup>
     </Form>
   );
