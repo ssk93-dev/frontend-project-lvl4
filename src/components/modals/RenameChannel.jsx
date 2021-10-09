@@ -3,11 +3,13 @@ import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
 import getChannelsNames from '../../store/selectors.js';
 
 const RenameChannel = (props) => {
   const { globalState } = useContext(Context);
+  const { t } = useTranslation();
   const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
   const handleSubmit = ({ onHide, modalInfo }) => (values) => {
@@ -20,7 +22,7 @@ const RenameChannel = (props) => {
     onSubmit: handleSubmit(props),
     initialValues: { name: modalInfo.item.name },
     validationSchema: yup.object().shape({
-      name: yup.string().required().max(10).notOneOf(channelsNames),
+      name: yup.string().required('modal.required').max(20, 'modal.long').notOneOf(channelsNames, 'modal.unique'),
     }),
   });
   const inputRef = useRef();
@@ -32,7 +34,7 @@ const RenameChannel = (props) => {
   return (
     <Modal show={modalInfo.show} onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Rename</Modal.Title>
+        <Modal.Title>{t('modal.rename')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit} id="renameChannel">
@@ -46,13 +48,13 @@ const RenameChannel = (props) => {
               name="name"
               isInvalid={formik.errors.name}
             />
-            <Form.Control.Feedback tooltip type="invalid">{formik.errors.name}</Form.Control.Feedback>
+            <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-end">
-        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>Cancel</Button>
-        <Button form="renameChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>Rename</Button>
+        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>{t('modal.cancel')}</Button>
+        <Button form="renameChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.rename')}</Button>
       </Modal.Footer>
     </Modal>
   );

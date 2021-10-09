@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
 import { actions } from '../../store/chatSlice.js';
 import getChannelsNames from '../../store/selectors.js';
@@ -10,6 +11,7 @@ import getChannelsNames from '../../store/selectors.js';
 const AddChannel = (props) => {
   const { globalState } = useContext(Context);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
   const handleSubmit = ({ onHide }) => (values) => {
@@ -23,7 +25,7 @@ const AddChannel = (props) => {
     onSubmit: handleSubmit(props),
     initialValues: { name: '' },
     validationSchema: yup.object().shape({
-      name: yup.string().required().max(10).notOneOf(channelsNames),
+      name: yup.string().required('modal.required').max(20, 'modal.long').notOneOf(channelsNames, 'modal.unique'),
     }),
   });
   const inputRef = useRef();
@@ -34,7 +36,7 @@ const AddChannel = (props) => {
   return (
     <Modal show={modalInfo.show} onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Add</Modal.Title>
+        <Modal.Title>{t('modal.add')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit} id="addChannel">
@@ -48,13 +50,13 @@ const AddChannel = (props) => {
               name="name"
               isInvalid={formik.errors.name}
             />
-            <Form.Control.Feedback tooltip type="invalid">{formik.errors.name}</Form.Control.Feedback>
+            <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-end">
-        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>Cancel</Button>
-        <Button form="addChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>Add</Button>
+        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>{t('modal.cancel')}</Button>
+        <Button form="addChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.add')}</Button>
       </Modal.Footer>
     </Modal>
   );

@@ -7,6 +7,7 @@ import LoginPage from './LoginPage.jsx';
 import NotFound from './NotFound.jsx';
 import ChatPage from './ChatPage.jsx';
 import Header from './Header.jsx';
+import SignupPage from './SignupPage.jsx';
 import Context from '../context.jsx';
 import { actions } from '../store/chatSlice.js';
 import getModal from './modals/index.js';
@@ -71,6 +72,9 @@ const App = ({ socket }) => {
           </Route>
           <Route path="/login">
             {globalState.isLoggedIn ? <Redirect to="/" /> : <LoginPage />}
+          </Route>
+          <Route path="/signup">
+            {globalState.isLoggedIn ? <Redirect to="/" /> : <SignupPage />}
           </Route>
           <Route path="*">
             <NotFound />

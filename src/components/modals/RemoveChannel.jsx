@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
 
 const RemoveChannel = (props) => {
   const { globalState } = useContext(Context);
+  const { t } = useTranslation();
   const { socket } = globalState;
   const handleRemoveChannel = (onHide, id) => () => {
     socket.emit('removeChannel', { id });
@@ -15,14 +17,14 @@ const RemoveChannel = (props) => {
   return (
     <Modal show={modalInfo.show} onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Remove</Modal.Title>
+        <Modal.Title>{t('modal.remove')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure?</p>
+        <p>{t('modal.sure')}</p>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-end">
-        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>Cancel</Button>
-        <Button type="button" variant="primary" onClick={handleRemoveChannel(onHide, modalInfo.item.id)}>Remove</Button>
+        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>{t('modal.cancel')}</Button>
+        <Button type="button" variant="primary" onClick={handleRemoveChannel(onHide, modalInfo.item.id)}>{t('modal.remove')}</Button>
       </Modal.Footer>
     </Modal>
   );
