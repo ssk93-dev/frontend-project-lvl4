@@ -3,19 +3,19 @@ export default {
     errors: {
       network: 'Ошибка сети',
       unknown: 'Что-то пошло не так.',
-      authorization: 'Не верный логин или пароль',
+      authorization: 'Неверные имя пользователя или пароль',
       signup: 'Пользователь уже существует',
       lost: 'Нет соединения с сервером!',
       password: {
         required: 'Обязательное поле',
         confirmRequired: 'Обязательное поле',
         mustMatch: 'Пароли должны совпадать',
-        short: 'Должен быть не короче 6 символов',
+        short: 'Не менее 6 символов',
       },
       username: {
         required: 'Обязательное поле',
-        short: 'Должно быть не короче 3 символов',
-        long: 'Должно быть не более 20 символов',
+        short: 'От 3 до 20 символов',
+        long: 'От 3 до 20 символов',
       },
     },
     header: {
@@ -26,7 +26,7 @@ export default {
     },
     login: {
       logoPlaceholder: 'Место для логотипа',
-      username: 'Имя пользователя',
+      username: 'Ваш ник',
       password: 'Пароль',
       signin: 'Войти',
       header: 'Войти',
@@ -36,10 +36,10 @@ export default {
     },
     signup: {
       logoPlaceholder: 'Место для логотипа',
-      username: 'Введите имя пользователя',
-      password: 'Введите пароль',
-      passwordRepetition: 'Повторите пароль',
-      signup: 'Зарегистрироваться',
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      passwordRepetition: 'Подтвердите пароль',
+      signup: 'Зарегистрироаться',
       header: 'Регистрация',
       footer: 'Уже зарегистрированы?',
       link: 'Cтраница входа',

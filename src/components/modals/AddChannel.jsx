@@ -55,6 +55,7 @@ const AddChannel = (props) => {
               value={formik.values.name}
               name="name"
               isInvalid={formik.errors.name}
+              data-testid="add-channel"
             />
             <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
           </Form.Group>

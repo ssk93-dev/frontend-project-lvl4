@@ -20,7 +20,7 @@ const Header = () => {
   return (
     <Navbar bg="white">
       <Container>
-        <Navbar.Brand href="/">Chat</Navbar.Brand>
+        <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <DropdownButton variant="outline" title={t('header.lang')}>

@@ -37,7 +37,7 @@ const MessageForm = () => {
     <Form onSubmit={formik.handleSubmit}>
       <InputGroup>
         <Form.Label visuallyHidden>{t('messages.input')}</Form.Label>
-        <Form.Control ref={inputRef} name="text" type="text" placeholder={t('messages.input')} onChange={formik.handleChange} value={formik.values.text} />
+        <Form.Control ref={inputRef} name="text" data-testid="new-message" type="text" placeholder={t('messages.input')} onChange={formik.handleChange} value={formik.values.text} />
         <InputGroup.Text>
           <Button className="btn-group-vertical" type="submit" variant="outline" disabled={!formik.values.text || formik.isSubmitting}>
             <ArrowRightSquare size={20} />
