@@ -8,9 +8,9 @@ import store from './store/index.js';
 import App from './components/App.jsx';
 import resources from './locales/index.js';
 
-const init = async () => {
+const init = () => {
   const i18nInstance = i18next.createInstance();
-  await i18nInstance
+  i18nInstance
     .use(initReactI18next)
     .init({
       resources,

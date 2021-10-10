@@ -11,13 +11,10 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const app = async () => {
-  const container = document.querySelector('#chat');
-  const vdom = await init();
-  render(
-    vdom,
-    container,
-  );
-};
+const container = document.querySelector('#chat');
+const vdom = init();
 
-app();
+render(
+  vdom,
+  container,
+);
