@@ -11,10 +11,9 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const container = document.getElementById('chat');
 const vdom = init();
 
 render(
   vdom,
-  container,
+  document.getElementById('chat'),
 );
