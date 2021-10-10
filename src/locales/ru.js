@@ -5,6 +5,7 @@ export default {
       unknown: 'Что-то пошло не так.',
       authorization: 'Не верный логин или пароль',
       signup: 'Пользователь уже существует',
+      lost: 'Нет соединения с сервером!',
       password: {
         required: 'Обязательное поле',
         confirmRequired: 'Обязательное поле',

@@ -8,12 +8,18 @@ import Context from '../../context.jsx';
 import getChannelsNames from '../../store/selectors.js';
 
 const RenameChannel = (props) => {
-  const { globalState } = useContext(Context);
+  const { globalState, showToast, hideToast } = useContext(Context);
   const { t } = useTranslation();
   const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
   const handleSubmit = ({ onHide, modalInfo }) => (values) => {
-    socket.emit('renameChannel', { id: modalInfo.item.id, name: values.name });
+    const timer = setTimeout(showToast, 3000);
+    socket.emit('renameChannel', { id: modalInfo.item.id, name: values.name }, ({ status }) => {
+      if (status === 'ok') {
+        clearTimeout(timer);
+        hideToast();
+      }
+    });
     onHide();
   };
 

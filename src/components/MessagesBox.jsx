@@ -11,7 +11,7 @@ import Context from '../context.jsx';
 
 const MessageForm = () => {
   const { currentChannelId } = useSelector((state) => state);
-  const { globalState } = useContext(Context);
+  const { globalState, showToast, hideToast } = useContext(Context);
   const { user, socket } = globalState;
   const { t } = useTranslation();
   const inputRef = useRef();
@@ -20,7 +20,13 @@ const MessageForm = () => {
       text: '',
     },
     onSubmit: (values) => {
-      socket.emit('newMessage', { username: user.username, channelId: currentChannelId, body: values.text });
+      const timer = setTimeout(showToast, 3000);
+      socket.emit('newMessage', { username: user.username, channelId: currentChannelId, body: values.text }, ({ status }) => {
+        if (status === 'ok') {
+          clearTimeout(timer);
+          hideToast();
+        }
+      });
       formik.resetForm();
     },
   });

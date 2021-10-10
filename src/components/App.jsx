@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
+import { Toast, ToastContainer } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import LoginPage from './LoginPage.jsx';
 import NotFound from './NotFound.jsx';
@@ -23,7 +24,7 @@ const renderModal = ({ modal }, hideModal) => {
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
   const lang = JSON.parse(localStorage.getItem('lang')) ?? 'ru';
   const initialState = {
@@ -32,6 +33,7 @@ const App = ({ socket }) => {
     socket,
     lang,
     modal: { type: null, item: null },
+    toast: { show: false },
   };
   const [globalState, setState] = useState(initialState);
   const hideModal = () => setState((prevState) => (
@@ -54,6 +56,18 @@ const App = ({ socket }) => {
       },
     }
   ));
+  const showToast = () => setState((prevState) => (
+    {
+      ...prevState,
+      toast: { show: true },
+    }
+  ));
+  const hideToast = () => setState((prevState) => (
+    {
+      ...prevState,
+      toast: { show: false },
+    }
+  ));
   useEffect(() => {
     i18n.changeLanguage(globalState.lang);
     socket.on('newMessage', (messageWithId) => dispatch(actions.addMessage({ message: messageWithId })));
@@ -63,8 +77,19 @@ const App = ({ socket }) => {
   }, []);
 
   return (
-    <Context.Provider value={{ globalState, setState, showModal }}>
+    <Context.Provider value={{
+      globalState, setState, showModal, showToast, hideToast,
+    }}
+    >
       <Header />
+      <ToastContainer position="top-center">
+        <Toast bg="danger" show={globalState.toast.show} onClose={hideToast}>
+          <Toast.Header>
+            <strong className="me-auto">{t('errors.network')}</strong>
+          </Toast.Header>
+          <Toast.Body>{t('errors.lost')}</Toast.Body>
+        </Toast>
+      </ToastContainer>
       <Router>
         <Switch>
           <Route exact path="/">

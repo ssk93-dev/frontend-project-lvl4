@@ -5,6 +5,7 @@ export default {
       unknown: 'Something went wrong...',
       authorization: 'Login or password is incorrect',
       signup: 'User already exist',
+      lost: "Can't connect to the server!",
       password: {
         required: 'Password is required',
         confirmRequired: 'Confirmation is required',

@@ -4,11 +4,17 @@ import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
 
 const RemoveChannel = (props) => {
-  const { globalState } = useContext(Context);
+  const { globalState, showToast, hideToast } = useContext(Context);
   const { t } = useTranslation();
   const { socket } = globalState;
   const handleRemoveChannel = (onHide, id) => () => {
-    socket.emit('removeChannel', { id });
+    const timer = setTimeout(showToast, 3000);
+    socket.emit('removeChannel', { id }, ({ status }) => {
+      if (status === 'ok') {
+        clearTimeout(timer);
+        hideToast();
+      }
+    });
     onHide();
   };
 
