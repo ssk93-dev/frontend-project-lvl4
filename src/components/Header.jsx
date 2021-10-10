@@ -18,7 +18,7 @@ const Header = () => {
     i18n.changeLanguage(lng);
   };
   return (
-    <Navbar bg="white">
+    <Navbar className="shadow-sm" bg="white">
       <Container>
         <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
         <Navbar.Toggle />
