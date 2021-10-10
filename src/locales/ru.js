@@ -39,7 +39,7 @@ export default {
       username: 'Имя пользователя',
       password: 'Пароль',
       passwordRepetition: 'Подтвердите пароль',
-      signup: 'Зарегистрироаться',
+      signup: 'Зарегистрироваться',
       header: 'Регистрация',
       footer: 'Уже зарегистрированы?',
       link: 'Cтраница входа',
