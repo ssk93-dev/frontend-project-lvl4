@@ -14,7 +14,7 @@ const init = async () => {
     .use(initReactI18next)
     .init({
       resources,
-      fallbackLng: 'en',
+      fallbackLng: 'ru',
     });
   const socket = io();
   return (

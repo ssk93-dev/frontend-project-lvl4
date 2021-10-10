@@ -19,6 +19,9 @@ export default {
     },
     header: {
       signout: 'Выйти',
+      lang: 'Язык',
+      langRu: 'Русский',
+      langEn: 'Английский',
     },
     login: {
       logoPlaceholder: 'Место для логотипа',

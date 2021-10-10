@@ -19,6 +19,9 @@ export default {
     },
     header: {
       signout: 'Sign Out',
+      lang: 'Language',
+      langRu: 'Russian',
+      langEn: 'English',
     },
     login: {
       logoPlaceholder: 'Logo placeholder',

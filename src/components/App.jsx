@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import LoginPage from './LoginPage.jsx';
 import NotFound from './NotFound.jsx';
 import ChatPage from './ChatPage.jsx';
@@ -22,16 +23,14 @@ const renderModal = ({ modal }, hideModal) => {
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
+  const { i18n } = useTranslation();
   const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
-  const { lang, theme } = JSON.parse(localStorage.getItem('ui')) ?? { lang: 'en', theme: 'light' };
+  const lang = JSON.parse(localStorage.getItem('lang')) ?? 'ru';
   const initialState = {
     user: { username, token },
     isLoggedIn: !!token,
     socket,
-    ui: {
-      lang,
-      theme,
-    },
+    lang,
     modal: { type: null, item: null },
   };
   const [globalState, setState] = useState(initialState);
@@ -56,6 +55,7 @@ const App = ({ socket }) => {
     }
   ));
   useEffect(() => {
+    i18n.changeLanguage(globalState.lang);
     socket.on('newMessage', (messageWithId) => dispatch(actions.addMessage({ message: messageWithId })));
     socket.on('newChannel', (channelWithId) => dispatch(actions.addChannel({ channel: channelWithId })));
     socket.on('removeChannel', (data) => dispatch(actions.removeChannel(data)));
