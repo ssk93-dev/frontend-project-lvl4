@@ -11,8 +11,8 @@ import init from './init.jsx';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-
-const vdom = init(io);
+const socket = io();
+const vdom = init(socket);
 
 render(
   vdom,

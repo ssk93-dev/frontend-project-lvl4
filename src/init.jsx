@@ -15,12 +15,11 @@ const init = (socketClient) => {
       resources,
       fallbackLng: 'ru',
     });
-  const socket = socketClient();
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18nInstance}>
         <Col className="d-flex flex-column h-100">
-          <App socket={socket} />
+          <App socket={socketClient} />
         </Col>
       </I18nextProvider>
     </Provider>
