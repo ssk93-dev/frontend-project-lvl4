@@ -99,12 +99,12 @@ const App = ({ socket }) => {
               <ChatPage />
             </PrivateRoute>
           </Route>
-          <Route path="/login">
+          <Route exact path="/login">
             <PublicRoute path="/">
               <LoginPage />
             </PublicRoute>
           </Route>
-          <Route path="/signup">
+          <Route exact path="/signup">
             <PublicRoute path="/">
               <SignupPage />
             </PublicRoute>
