@@ -24,7 +24,7 @@ const RemoveChannel = (props) => {
   const { modalInfo, onHide } = props;
 
   return (
-    <Modal show={modalInfo.show} onHide={onHide}>
+    <Modal show={modalInfo.show} onHide={onHide} centered>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>{t('modal.remove')}</Modal.Title>
       </Modal.Header>

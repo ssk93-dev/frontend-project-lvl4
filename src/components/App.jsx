@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
-import { Toast, ToastContainer } from 'react-bootstrap';
+import { Toast, ToastContainer, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import LoginPage from './LoginPage.jsx';
 import NotFound from './NotFound.jsx';
@@ -89,7 +89,10 @@ const App = ({ socket }) => {
           <Toast.Header>
             <strong className="me-auto">{t('errors.network')}</strong>
           </Toast.Header>
-          <Toast.Body>{t('errors.lost')}</Toast.Body>
+          <Toast.Body className="text-center">
+            {t('errors.lost')}
+            <Spinner animation="border" size="sm" />
+          </Toast.Body>
         </Toast>
       </ToastContainer>
       <Router>
