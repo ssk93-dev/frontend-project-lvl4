@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  BrowserRouter as Router, Switch, Route, Redirect,
+  BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import { Toast, ToastContainer } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,8 @@ import NotFound from './NotFound.jsx';
 import ChatPage from './ChatPage.jsx';
 import Header from './Header.jsx';
 import SignupPage from './SignupPage.jsx';
+import PrivateRoute from './PrivateRoute.jsx';
+import PublicRoute from './PublicRoute.jsx';
 import Context from '../context.jsx';
 import { actions } from '../store/chatSlice.js';
 import getModal from './modals/index.js';
@@ -93,13 +95,19 @@ const App = ({ socket }) => {
       <Router>
         <Switch>
           <Route exact path="/">
-            {globalState.isLoggedIn ? <ChatPage /> : <Redirect to="/login" />}
+            <PrivateRoute path="/login">
+              <ChatPage />
+            </PrivateRoute>
           </Route>
           <Route path="/login">
-            {globalState.isLoggedIn ? <Redirect to="/" /> : <LoginPage />}
+            <PublicRoute path="/">
+              <LoginPage />
+            </PublicRoute>
           </Route>
           <Route path="/signup">
-            {globalState.isLoggedIn ? <Redirect to="/" /> : <SignupPage />}
+            <PublicRoute path="/">
+              <SignupPage />
+            </PublicRoute>
           </Route>
           <Route path="*">
             <NotFound />
