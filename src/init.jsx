@@ -3,12 +3,11 @@ import { Col } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
-import io from 'socket.io-client';
 import store from './store/index.js';
 import App from './components/App.jsx';
 import resources from './locales/index.js';
 
-const init = () => {
+const init = (socketClient) => {
   const i18nInstance = i18next.createInstance();
   i18nInstance
     .use(initReactI18next)
@@ -16,7 +15,7 @@ const init = () => {
       resources,
       fallbackLng: 'ru',
     });
-  const socket = io();
+  const socket = socketClient();
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18nInstance}>
