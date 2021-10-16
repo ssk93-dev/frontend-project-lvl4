@@ -14,21 +14,23 @@ const AddChannel = (props) => {
   const { t } = useTranslation();
   const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = ({ onHide }) => (values) => {
+  const handleSubmit = (onHide) => (values, { resetForm, setSubmitting }) => {
     const timer = setTimeout(showToast, 3000);
     socket.emit('newChannel', { name: values.name }, ({ status }) => {
       if (status === 'ok') {
         clearTimeout(timer);
         hideToast();
+        setSubmitting(false);
+        resetForm();
+        socket.once('newChannel', ({ id }) => dispatch(actions.setCurrentChannel({ id })));
+        onHide();
       }
     });
-    socket.once('newChannel', ({ id }) => dispatch(actions.setCurrentChannel({ id })));
-    onHide();
   };
 
   const { modalInfo, onHide } = props;
   const formik = useFormik({
-    onSubmit: handleSubmit(props),
+    onSubmit: handleSubmit(onHide),
     initialValues: { name: '' },
     validationSchema: yup.object().shape({
       name: yup.string().required('modal.required').max(20, 'modal.long').notOneOf(channelsNames, 'modal.unique'),
@@ -56,6 +58,7 @@ const AddChannel = (props) => {
               name="name"
               isInvalid={formik.errors.name}
               data-testid="add-channel"
+              disabled={formik.isSubmitting}
             />
             <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
           </Form.Group>

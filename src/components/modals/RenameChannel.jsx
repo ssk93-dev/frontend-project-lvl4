@@ -12,15 +12,16 @@ const RenameChannel = (props) => {
   const { t } = useTranslation();
   const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = ({ onHide, modalInfo }) => (values) => {
+  const handleSubmit = ({ onHide, modalInfo }) => (values, { setSubmitting }) => {
     const timer = setTimeout(showToast, 3000);
     socket.emit('renameChannel', { id: modalInfo.item.id, name: values.name }, ({ status }) => {
       if (status === 'ok') {
         clearTimeout(timer);
         hideToast();
+        setSubmitting(false);
+        onHide();
       }
     });
-    onHide();
   };
 
   const { modalInfo, onHide } = props;
@@ -54,6 +55,7 @@ const RenameChannel = (props) => {
               name="name"
               isInvalid={formik.errors.name}
               data-testid="rename-channel"
+              disabled={formik.isSubmitting}
             />
             <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
           </Form.Group>

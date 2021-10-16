@@ -19,15 +19,16 @@ const MessageForm = () => {
     initialValues: {
       text: '',
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm, setSubmitting }) => {
       const timer = setTimeout(showToast, 3000);
       socket.emit('newMessage', { username: user.username, channelId: currentChannelId, body: values.text }, ({ status }) => {
         if (status === 'ok') {
           clearTimeout(timer);
+          setSubmitting(false);
+          resetForm();
           hideToast();
         }
       });
-      formik.resetForm();
     },
   });
   useEffect(() => {
@@ -37,7 +38,7 @@ const MessageForm = () => {
     <Form onSubmit={formik.handleSubmit}>
       <InputGroup>
         <Form.Label visuallyHidden>{t('messages.input')}</Form.Label>
-        <Form.Control ref={inputRef} name="text" data-testid="new-message" type="text" placeholder={t('messages.input')} onChange={formik.handleChange} value={formik.values.text} />
+        <Form.Control ref={inputRef} name="text" data-testid="new-message" type="text" placeholder={t('messages.input')} onChange={formik.handleChange} value={formik.values.text} disabled={formik.isSubmitting} />
         <InputGroup.Text>
           <Button className="btn-group-vertical" type="submit" variant="outline" disabled={!formik.values.text || formik.isSubmitting}>
             <ArrowRightSquare size={20} />
