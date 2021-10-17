@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
-import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
-import { PlusSquare } from 'react-bootstrap-icons';
+import {
+  Button, ButtonGroup, Container, Dropdown, Nav,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { actions } from '../store/chatSlice.js';
 import Context from '../context.jsx';
@@ -14,18 +15,12 @@ const ChannelsList = () => {
   const handleSetChannel = (id) => () => dispatch(actions.setCurrentChannel({ id }));
   const { showModal } = useContext(Context);
   return (
-    <>
-      <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
-        <span>{t('chat.channels')}</span>
-        <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => showModal('adding')}>
-          <PlusSquare size={20} />
-        </button>
-      </div>
-      <ul className="nav flex-column nav-pills nav-fill px-2">
+    <Container fluid className="px-0 overflow-auto">
+      <Nav as="ul" variant="pills" fill className="px-2">
         {channels.map((channel) => {
           const buttonStyle = channel.id === currentChannelId ? 'btn btn-secondary' : 'btn';
           return (
-            <li className="nav-item w-100" key={channel.id}>
+            <Nav.Item as="li" bsPrefix="nav-item w-100" key={channel.id}>
               <Dropdown as={ButtonGroup} className="d-flex">
                 <Button
                   type="button"
@@ -50,11 +45,11 @@ const ChannelsList = () => {
                   </>
                 ) : null}
               </Dropdown>
-            </li>
+            </Nav.Item>
           );
         })}
-      </ul>
-    </>
+      </Nav>
+    </Container>
   );
 };
 

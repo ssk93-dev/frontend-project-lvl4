@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
@@ -13,7 +12,6 @@ import SignupPage from './SignupPage.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import PublicRoute from './PublicRoute.jsx';
 import Context from '../context.jsx';
-import { actions } from '../store/chatSlice.js';
 import getModal from './modals/index.js';
 
 const renderModal = ({ modal }, hideModal) => {
@@ -25,7 +23,6 @@ const renderModal = ({ modal }, hideModal) => {
 };
 
 const App = ({ socket }) => {
-  const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
   const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
   const lang = JSON.parse(localStorage.getItem('lang')) ?? 'ru';
@@ -72,10 +69,6 @@ const App = ({ socket }) => {
   ));
   useEffect(() => {
     i18n.changeLanguage(globalState.lang);
-    socket.on('newMessage', (messageWithId) => dispatch(actions.addMessage({ message: messageWithId })));
-    socket.on('newChannel', (channelWithId) => dispatch(actions.addChannel({ channel: channelWithId })));
-    socket.on('removeChannel', (data) => dispatch(actions.removeChannel(data)));
-    socket.on('renameChannel', (channel) => dispatch(actions.renameChannel(channel)));
   }, []);
 
   return (

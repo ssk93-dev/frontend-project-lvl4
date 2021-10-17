@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import { actions } from '../store/chatSlice.js';
+import ChannelsHeader from './ChannelsHeader.jsx';
 import ChannelsList from './ChannelsList.jsx';
 import MessagesBox from './MessagesBox.jsx';
 
@@ -33,7 +34,8 @@ const ChatPage = () => {
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
-        <Col className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
+        <Col className="col-4 col-md-2 border-end pt-5 px-0 bg-light h-100 overflow-hidden">
+          <ChannelsHeader />
           <ChannelsList />
         </Col>
         <Col className="p-0 h-100">
