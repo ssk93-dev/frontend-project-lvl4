@@ -31,41 +31,40 @@ const ChannelsList = () => {
   return (
     <div className="d-flex flex-column h-100">
       <ChannelsHeader />
-      <div className="h-100 overflow-auto">
-        <Nav as="ul" variant="pills" fill className="px-2">
-          {channels.map((channel) => {
-            const buttonStyle = channel.id === currentChannelId ? 'btn btn-secondary' : 'btn';
-            return (
-              <Nav.Item as="li" bsPrefix="nav-item w-100" key={channel.id}>
-                <Dropdown as={ButtonGroup} className="d-flex">
-                  <Button
-                    type="button"
-                    variant={buttonStyle}
-                    className={cn({
-                      'w-100': true,
-                      'rounded-0': true,
-                      'text-start': true,
-                    })}
-                    onClick={handleSetChannel(channel.id)}
-                  >
-                    <span className="me-1">#</span>
-                    {channel.name}
-                  </Button>
-                  {channel.removable ? (
-                    <>
-                      <Dropdown.Toggle split variant={buttonStyle} />
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => showModal('renaming', channel)}>{t('modal.rename')}</Dropdown.Item>
-                        <Dropdown.Item onClick={() => showModal('removing', channel)}>{t('modal.remove')}</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </>
-                  ) : null}
-                </Dropdown>
-              </Nav.Item>
-            );
-          })}
-        </Nav>
-      </div>
+      <Nav as="ul" variant="pills" fill className="px-2" style={{ overflowX: 'visible', overflowY: 'auto' }}>
+        {channels.map((channel) => {
+          const buttonStyle = channel.id === currentChannelId ? 'btn btn-secondary' : 'btn';
+          return (
+            <Nav.Item as="li" bsPrefix="nav-item w-100" key={channel.id}>
+              <Dropdown as={ButtonGroup} className="d-flex">
+                <Button
+                  type="button"
+                  variant={buttonStyle}
+                  className={cn({
+                    'w-100': true,
+                    'rounded-0': true,
+                    'text-start': true,
+                    'text-truncate': true,
+                  })}
+                  onClick={handleSetChannel(channel.id)}
+                >
+                  <span className="me-1">#</span>
+                  {channel.name}
+                </Button>
+                {channel.removable ? (
+                  <>
+                    <Dropdown.Toggle split variant={buttonStyle} />
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => showModal('renaming', channel)}>{t('modal.rename')}</Dropdown.Item>
+                      <Dropdown.Item onClick={() => showModal('removing', channel)}>{t('modal.remove')}</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </>
+                ) : null}
+              </Dropdown>
+            </Nav.Item>
+          );
+        })}
+      </Nav>
     </div>
   );
 };

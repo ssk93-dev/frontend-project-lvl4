@@ -4,15 +4,11 @@ import {
 } from 'react-router-dom';
 import { Toast, ToastContainer, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import LoginPage from './LoginPage.jsx';
-import NotFound from './NotFound.jsx';
-import ChatPage from './ChatPage.jsx';
-import Header from './Header.jsx';
-import SignupPage from './SignupPage.jsx';
-import PrivateRoute from './PrivateRoute.jsx';
-import PublicRoute from './PublicRoute.jsx';
-import Context from '../context.jsx';
-import getModal from './modals/index.js';
+import {
+  Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute,
+} from './components';
+import Context from './context.jsx';
+import getModal from './components/modals';
 
 const renderModal = ({ modal }, hideModal) => {
   if (!modal.type) {

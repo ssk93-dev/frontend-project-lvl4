@@ -33,7 +33,7 @@ const ChatPage = () => {
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
-        <Col className="col-4 col-md-2 border-end pt-5 px-0 bg-light h-100 overflow-hidden">
+        <Col className="h-100 col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <ChannelsList />
         </Col>
         <Col className="p-0 h-100">
