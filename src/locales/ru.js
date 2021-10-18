@@ -22,7 +22,7 @@ export default {
       signout: 'Выйти',
       lang: 'Язык',
       langRu: 'Русский',
-      langEn: 'Английский',
+      langEn: 'English',
     },
     login: {
       logoPlaceholder: 'Место для логотипа',

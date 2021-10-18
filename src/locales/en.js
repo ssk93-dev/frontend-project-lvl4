@@ -21,7 +21,7 @@ export default {
     header: {
       signout: 'Sign Out',
       lang: 'Language',
-      langRu: 'Russian',
+      langRu: 'Русский',
       langEn: 'English',
     },
     login: {
