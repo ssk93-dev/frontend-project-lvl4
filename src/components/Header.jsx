@@ -24,11 +24,13 @@ const Header = () => {
         <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <DropdownButton variant="outline" aria-label={t('header.lang')} title={<Globe />}>
+          <DropdownButton align="end" variant="outline" aria-label={t('header.lang')} title={<Globe />}>
             <Dropdown.Item as="button" onClick={handleChangeLanguage('ru')}>{t('header.langRu')}</Dropdown.Item>
             <Dropdown.Item as="button" onClick={handleChangeLanguage('en')}>{t('header.langEn')}</Dropdown.Item>
           </DropdownButton>
-          {globalState.isLoggedIn ? <Button onClick={handleSignOut}>{t('header.signout')}</Button> : null}
+          {globalState.isLoggedIn
+            ? <Button variant="outline" onClick={handleSignOut}>{t('header.signout')}</Button>
+            : null}
         </Navbar.Collapse>
       </Container>
     </Navbar>

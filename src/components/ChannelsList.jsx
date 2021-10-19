@@ -13,7 +13,7 @@ const ChannelsHeader = () => {
   const { t } = useTranslation();
   const { showModal } = useContext(Context);
   return (
-    <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
+    <div className="d-flex justify-content-between mb-2 ps-3 pe-2">
       <span>{t('chat.channels')}</span>
       <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => showModal('adding')}>
         <PlusSquare size={20} />
@@ -31,7 +31,7 @@ const ChannelsList = () => {
   return (
     <div className="d-flex flex-column h-100">
       <ChannelsHeader />
-      <Nav as="ul" variant="pills" fill className="px-2" style={{ overflowX: 'visible', overflowY: 'auto' }}>
+      <Nav as="ul" variant="pills" className="d-flex flex-nowrap flex-column h-100 px-2" style={{ overflowX: 'hidden', overflowY: 'auto' }}>
         {channels.map((channel) => {
           const buttonStyle = channel.id === currentChannelId ? 'btn btn-secondary' : 'btn';
           return (
@@ -54,7 +54,7 @@ const ChannelsList = () => {
                 {channel.removable ? (
                   <>
                     <Dropdown.Toggle split variant={buttonStyle} />
-                    <Dropdown.Menu>
+                    <Dropdown.Menu align="end">
                       <Dropdown.Item onClick={() => showModal('renaming', channel)}>{t('modal.rename')}</Dropdown.Item>
                       <Dropdown.Item onClick={() => showModal('removing', channel)}>{t('modal.remove')}</Dropdown.Item>
                     </Dropdown.Menu>
