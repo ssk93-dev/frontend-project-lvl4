@@ -6,20 +6,17 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
 import { actions } from '../../store/chatSlice.js';
-import getChannelsNames from '../../store/selectors.js';
+import { getChannelsNames } from '../../store/selectors.js';
 
 const AddChannel = (props) => {
-  const { globalState, showToast, hideToast } = useContext(Context);
+  const { globalState } = useContext(Context);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
   const handleSubmit = (onHide) => (values, { resetForm, setSubmitting }) => {
-    const timer = setTimeout(showToast, 3000);
     socket.emit('newChannel', { name: values.name }, ({ status }) => {
       if (status === 'ok') {
-        clearTimeout(timer);
-        hideToast();
         setSubmitting(false);
         resetForm();
         socket.once('newChannel', ({ id }) => dispatch(actions.setCurrentChannel({ id })));

@@ -16,10 +16,16 @@ const init = (socket) => {
       resources,
       fallbackLng: 'ru',
     });
+  const timer = (action) => setTimeout(action, 3000);
   socket.on('newMessage', (messageWithId) => store.dispatch(actions.addMessage({ message: messageWithId })));
   socket.on('newChannel', (channelWithId) => store.dispatch(actions.addChannel({ channel: channelWithId })));
   socket.on('removeChannel', (data) => store.dispatch(actions.removeChannel(data)));
   socket.on('renameChannel', (channel) => store.dispatch(actions.renameChannel(channel)));
+  socket.on('disconnect', () => timer(() => store.dispatch(actions.handleToast({ show: true }))));
+  socket.on('connect', () => {
+    clearTimeout(timer);
+    store.dispatch(actions.handleToast({ show: false }));
+  });
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18nInstance}>

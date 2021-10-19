@@ -4,6 +4,9 @@ import {
 } from 'react-router-dom';
 import { Toast, ToastContainer, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { getToastState } from './store/selectors.js';
+import { actions } from './store/chatSlice.js';
 import {
   Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute,
 } from './components';
@@ -22,13 +25,15 @@ const App = ({ socket }) => {
   const { t, i18n } = useTranslation();
   const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
   const lang = JSON.parse(localStorage.getItem('lang')) ?? 'ru';
+  const dispatch = useDispatch();
+  const toastState = useSelector(getToastState);
+  const handleToast = (payload) => () => dispatch(actions.handleToast(payload));
   const initialState = {
     user: { username, token },
     isLoggedIn: !!token,
     socket,
     lang,
     modal: { type: null, item: null },
-    toast: { show: false },
   };
   const [globalState, setState] = useState(initialState);
   const hideModal = () => setState((prevState) => (
@@ -51,30 +56,19 @@ const App = ({ socket }) => {
       },
     }
   ));
-  const showToast = () => setState((prevState) => (
-    {
-      ...prevState,
-      toast: { show: true },
-    }
-  ));
-  const hideToast = () => setState((prevState) => (
-    {
-      ...prevState,
-      toast: { show: false },
-    }
-  ));
+
   useEffect(() => {
     i18n.changeLanguage(globalState.lang);
   }, []);
 
   return (
     <Context.Provider value={{
-      globalState, setState, showModal, showToast, hideToast,
+      globalState, setState, showModal,
     }}
     >
       <Header />
       <ToastContainer position="top-center">
-        <Toast bg="danger" show={globalState.toast.show} onClose={hideToast}>
+        <Toast bg="danger" show={toastState.show} onClose={handleToast({ toastState: { show: false } })}>
           <Toast.Header>
             <strong className="me-auto">{t('errors.network')}</strong>
           </Toast.Header>

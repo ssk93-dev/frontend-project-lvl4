@@ -5,19 +5,16 @@ import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
-import getChannelsNames from '../../store/selectors.js';
+import { getChannelsNames } from '../../store/selectors.js';
 
 const RenameChannel = (props) => {
-  const { globalState, showToast, hideToast } = useContext(Context);
+  const { globalState } = useContext(Context);
   const { t } = useTranslation();
   const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
   const handleSubmit = ({ onHide, modalInfo }) => (values, { setSubmitting }) => {
-    const timer = setTimeout(showToast, 3000);
     socket.emit('renameChannel', { id: modalInfo.item.id, name: values.name }, ({ status }) => {
       if (status === 'ok') {
-        clearTimeout(timer);
-        hideToast();
         setSubmitting(false);
         onHide();
       }

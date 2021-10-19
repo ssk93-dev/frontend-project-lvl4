@@ -8,6 +8,7 @@ const chatSlice = createSlice({
     channels: [],
     currentChannelId: null,
     messages: [],
+    toast: { show: false },
   },
   reducers: {
     initChannels(state, { payload }) {
@@ -39,6 +40,10 @@ const chatSlice = createSlice({
     renameChannel(state, { payload }) {
       const channel = state.channels.find(({ id }) => id === payload.id);
       channel.name = payload.name;
+    },
+    handleToast(state, { payload }) {
+      const toastState = payload;
+      state.toast = toastState;
     },
   },
 });
