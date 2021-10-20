@@ -10,6 +10,7 @@ import axios from 'axios';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import Context from '../context.jsx';
+import routes from '../routes.js';
 
 const identifyError = (error) => {
   if (error.response.status === 409) {
@@ -44,7 +45,7 @@ const SignupForm = () => {
     onSubmit: async (values) => {
       try {
         setAuthFailed(false);
-        const { data } = await axios.post('/api/v1/signup', values);
+        const { data } = await axios.post(routes.signupPath(), values);
         localStorage.userId = JSON.stringify(data);
         setState((prevState) => ({
           ...prevState,

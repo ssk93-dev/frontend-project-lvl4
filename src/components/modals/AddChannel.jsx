@@ -9,10 +9,9 @@ import { actions } from '../../store/chatSlice.js';
 import { getChannelsNames } from '../../store/selectors.js';
 
 const AddChannel = (props) => {
-  const { globalState } = useContext(Context);
+  const { socket } = useContext(Context);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { socket } = globalState;
   const channelsNames = useSelector(getChannelsNames);
   const handleSubmit = (onHide) => (values, { resetForm, setSubmitting }) => {
     socket.emit('newChannel', { name: values.name }, ({ status }) => {

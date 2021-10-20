@@ -11,8 +11,8 @@ import Context from '../context.jsx';
 
 const MessageForm = () => {
   const { currentChannelId } = useSelector((state) => state);
-  const { globalState } = useContext(Context);
-  const { user, socket } = globalState;
+  const { globalState, socket } = useContext(Context);
+  const { user } = globalState;
   const { t } = useTranslation();
   const inputRef = useRef();
   const formik = useFormik({

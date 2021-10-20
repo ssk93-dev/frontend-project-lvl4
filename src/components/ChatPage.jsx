@@ -7,6 +7,7 @@ import axios from 'axios';
 import { actions } from '../store/chatSlice.js';
 import ChannelsList from './ChannelsList.jsx';
 import MessagesBox from './MessagesBox.jsx';
+import routes from '../routes.js';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -21,7 +22,7 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const { data } = await axios.get('/api/v1/data', { headers: getAuthHeader() });
+        const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
         dispatch(actions.initChannels(data));
       } catch (e) {
         console.log(e);

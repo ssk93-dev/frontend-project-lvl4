@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import Context from '../context.jsx';
+import routes from '../routes.js';
 
 const identifyError = (error) => {
   if (error.response.status === 401) {
@@ -37,7 +38,7 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       try {
         setAuthFailed(false);
-        const { data } = await axios.post('/api/v1/login', values);
+        const { data } = await axios.post(routes.loginPath(), values);
         localStorage.userId = JSON.stringify(data);
         setState((prevState) => ({
           ...prevState,

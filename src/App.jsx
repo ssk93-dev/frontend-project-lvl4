@@ -31,7 +31,6 @@ const App = ({ socket }) => {
   const initialState = {
     user: { username, token },
     isLoggedIn: !!token,
-    socket,
     lang,
     modal: { type: null, item: null },
   };
@@ -63,7 +62,7 @@ const App = ({ socket }) => {
 
   return (
     <Context.Provider value={{
-      globalState, setState, showModal,
+      globalState, socket, setState, showModal,
     }}
     >
       <Header />

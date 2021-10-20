@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
 
 const RemoveChannel = (props) => {
-  const { globalState } = useContext(Context);
+  const { socket } = useContext(Context);
   const { t } = useTranslation();
-  const { socket } = globalState;
   const [isSubmitting, setSubmitting] = useState(false);
   const handleRemoveChannel = (onHide, id) => () => {
     setSubmitting(true);
