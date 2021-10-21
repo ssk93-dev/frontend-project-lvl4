@@ -6,27 +6,28 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import Context from '../../context.jsx';
 import { actions } from '../../store/chatSlice.js';
-import { getChannelsNames } from '../../store/selectors.js';
+import { getChannelsNames, getModalState } from '../../store/selectors.js';
 
-const AddChannel = (props) => {
+const AddChannel = () => {
   const { socket } = useContext(Context);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = (onHide) => (values, { resetForm, setSubmitting }) => {
+  const modalInfo = useSelector(getModalState);
+  const hideModal = () => dispatch(actions.hideModal());
+  const handleSubmit = (values, { resetForm, setSubmitting }) => {
     socket.emit('newChannel', { name: values.name }, ({ status }) => {
       if (status === 'ok') {
         setSubmitting(false);
         resetForm();
         socket.once('newChannel', ({ id }) => dispatch(actions.setCurrentChannel({ id })));
-        onHide();
+        hideModal();
       }
     });
   };
 
-  const { modalInfo, onHide } = props;
   const formik = useFormik({
-    onSubmit: handleSubmit(onHide),
+    onSubmit: handleSubmit,
     initialValues: { name: '' },
     validationSchema: yup.object().shape({
       name: yup.string().required('modal.required').max(20, 'modal.long').notOneOf(channelsNames, 'modal.unique'),
@@ -38,8 +39,8 @@ const AddChannel = (props) => {
   }, []);
 
   return (
-    <Modal show={modalInfo.show} onHide={onHide} centered>
-      <Modal.Header closeButton onHide={onHide}>
+    <Modal show={modalInfo.show} onHide={hideModal} centered>
+      <Modal.Header closeButton onHide={hideModal}>
         <Modal.Title>{t('modal.add')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -61,7 +62,7 @@ const AddChannel = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-end">
-        <Button type="button" variant="secondary" className="me-2" onClick={onHide}>{t('modal.cancel')}</Button>
+        <Button type="button" variant="secondary" className="me-2" onClick={hideModal}>{t('modal.cancel')}</Button>
         <Button form="addChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.add')}</Button>
       </Modal.Footer>
     </Modal>

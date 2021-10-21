@@ -8,6 +8,7 @@ const chatSlice = createSlice({
     channels: [],
     currentChannelId: null,
     messages: [],
+    modalInfo: { show: false, type: null, item: null },
     toast: { show: false },
   },
   reducers: {
@@ -40,6 +41,13 @@ const chatSlice = createSlice({
     renameChannel(state, { payload }) {
       const channel = state.channels.find(({ id }) => id === payload.id);
       channel.name = payload.name;
+    },
+    showModal(state, { payload }) {
+      const { type, item } = payload;
+      state.modalInfo = { show: true, type, item };
+    },
+    hideModal(state) {
+      state.modalInfo = { show: false, type: null, item: null };
     },
     handleToast(state, { payload }) {
       const toastState = payload;

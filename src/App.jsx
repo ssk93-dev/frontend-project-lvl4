@@ -5,7 +5,7 @@ import {
 import { Toast, ToastContainer, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getToastState } from './store/selectors.js';
+import { getModalState, getToastState } from './store/selectors.js';
 import { actions } from './store/chatSlice.js';
 import {
   Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute,
@@ -13,12 +13,12 @@ import {
 import Context from './context.jsx';
 import getModal from './components/modals';
 
-const renderModal = ({ modal }, hideModal) => {
-  if (!modal.type) {
+const renderModal = (type) => {
+  if (!type) {
     return null;
   }
-  const Component = getModal(modal.type);
-  return <Component modalInfo={modal} onHide={hideModal} />;
+  const Modal = getModal(type);
+  return <Modal />;
 };
 
 const App = ({ socket }) => {
@@ -27,34 +27,14 @@ const App = ({ socket }) => {
   const lang = JSON.parse(localStorage.getItem('lang')) ?? 'ru';
   const dispatch = useDispatch();
   const toastState = useSelector(getToastState);
+  const modalInfo = useSelector(getModalState);
   const handleToast = (payload) => () => dispatch(actions.handleToast(payload));
   const initialState = {
     user: { username, token },
     isLoggedIn: !!token,
     lang,
-    modal: { type: null, item: null },
   };
   const [globalState, setState] = useState(initialState);
-  const hideModal = () => setState((prevState) => (
-    {
-      ...prevState,
-      modal: {
-        show: false,
-        type: null,
-        item: null,
-      },
-    }
-  ));
-  const showModal = (type, item = null) => setState((prevState) => (
-    {
-      ...prevState,
-      modal: {
-        show: true,
-        type,
-        item,
-      },
-    }
-  ));
 
   useEffect(() => {
     i18n.changeLanguage(globalState.lang);
@@ -62,7 +42,7 @@ const App = ({ socket }) => {
 
   return (
     <Context.Provider value={{
-      globalState, socket, setState, showModal,
+      globalState, socket, setState,
     }}
     >
       <Header />
@@ -99,7 +79,7 @@ const App = ({ socket }) => {
           </Route>
         </Switch>
       </Router>
-      {renderModal(globalState, hideModal)}
+      {renderModal(modalInfo.type)}
     </Context.Provider>
   );
 };

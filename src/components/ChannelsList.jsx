@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import {
@@ -7,15 +7,15 @@ import {
 import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { actions } from '../store/chatSlice.js';
-import Context from '../context.jsx';
 
 const ChannelsHeader = () => {
   const { t } = useTranslation();
-  const { showModal } = useContext(Context);
+  const dispatch = useDispatch();
+  const showModal = (payload) => () => dispatch(actions.showModal(payload));
   return (
     <div className="d-flex justify-content-between mb-2 ps-3 pe-2">
       <span>{t('chat.channels')}</span>
-      <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => showModal('adding')}>
+      <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={showModal({ type: 'adding', item: null })}>
         <PlusSquare size={20} />
       </button>
     </div>
@@ -27,7 +27,7 @@ const ChannelsList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const handleSetChannel = (id) => () => dispatch(actions.setCurrentChannel({ id }));
-  const { showModal } = useContext(Context);
+  const showModal = (payload) => () => dispatch(actions.showModal(payload));
   return (
     <div className="d-flex flex-column h-100">
       <ChannelsHeader />
@@ -55,8 +55,8 @@ const ChannelsList = () => {
                   <>
                     <Dropdown.Toggle split variant={buttonStyle} />
                     <Dropdown.Menu align="end">
-                      <Dropdown.Item onClick={() => showModal('renaming', channel)}>{t('modal.rename')}</Dropdown.Item>
-                      <Dropdown.Item onClick={() => showModal('removing', channel)}>{t('modal.remove')}</Dropdown.Item>
+                      <Dropdown.Item onClick={showModal({ type: 'renaming', item: channel })}>{t('modal.rename')}</Dropdown.Item>
+                      <Dropdown.Item onClick={showModal({ type: 'removing', item: channel })}>{t('modal.remove')}</Dropdown.Item>
                     </Dropdown.Menu>
                   </>
                 ) : null}
