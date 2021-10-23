@@ -41,10 +41,10 @@ const AddChannel = () => {
   return (
     <Modal show={modalInfo.show} onHide={hideModal} centered>
       <Modal.Header closeButton onHide={hideModal}>
-        <Modal.Title>Добавить</Modal.Title>
+        <Modal.Title>{t('modal.add')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+        <Form onSubmit={formik.handleSubmit} id="addChannel">
           <Form.Group>
             <Form.Control
               required
@@ -59,12 +59,12 @@ const AddChannel = () => {
             />
             <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
           </Form.Group>
-          <div className="d-flex justify-content-end">
-            <Button type="button" variant="secondary" className="me-2" onClick={hideModal}>{t('modal.cancel')}</Button>
-            <Button type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.add')}</Button>
-          </div>
         </Form>
       </Modal.Body>
+      <Modal.Footer className="d-flex justify-content-end">
+        <Button type="button" variant="secondary" className="me-2" onClick={hideModal}>{t('modal.cancel')}</Button>
+        <Button form="addChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.add')}</Button>
+      </Modal.Footer>
     </Modal>
   );
 };
