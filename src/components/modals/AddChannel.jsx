@@ -63,7 +63,7 @@ const AddChannel = () => {
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-end">
         <Button type="button" variant="secondary" className="me-2" onClick={hideModal}>{t('modal.cancel')}</Button>
-        <Button form="addChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.add')}</Button>
+        <Button role="button" form="addChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.add')}</Button>
       </Modal.Footer>
     </Modal>
   );
