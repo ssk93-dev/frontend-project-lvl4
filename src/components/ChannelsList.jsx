@@ -17,6 +17,7 @@ const ChannelsHeader = () => {
       <span>{t('chat.channels')}</span>
       <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={showModal({ type: 'adding', item: null })}>
         <PlusSquare size={20} />
+        <span className="visually-hidden">+</span>
       </button>
     </div>
   );
