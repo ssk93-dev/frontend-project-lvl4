@@ -1,35 +1,15 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useContext, useEffect } from 'react';
 import {
   Container, Row, Col,
 } from 'react-bootstrap';
-import axios from 'axios';
-import { actions } from '../store/chatSlice.js';
 import ChannelsList from './ChannelsList.jsx';
 import MessagesBox from './MessagesBox.jsx';
-import routes from '../routes.js';
-
-const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
-  }
-  return {};
-};
+import { AuthContext } from '../context.jsx';
 
 const ChatPage = () => {
-  const dispatch = useDispatch();
+  const { loadData } = useContext(AuthContext);
   useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
-        dispatch(actions.initChannels(data));
-      } catch (e) {
-        console.log(e);
-        throw e;
-      }
-    };
-    fetchContent();
+    loadData();
   }, []);
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">

@@ -5,15 +5,12 @@ import {
 import { Link } from 'react-router-dom';
 import { Globe } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-import Context from '../context.jsx';
+import { AuthContext, UiContext } from '../context.jsx';
 
 const Header = () => {
-  const { globalState, setState } = useContext(Context);
+  const { signOut, userId } = useContext(AuthContext);
+  const { setState } = useContext(UiContext);
   const { t, i18n } = useTranslation();
-  const handleSignOut = () => {
-    localStorage.removeItem('userId');
-    setState((prevState) => ({ ...prevState, user: { username: '', token: '' }, isLoggedIn: false }));
-  };
   const handleChangeLanguage = (lng) => () => {
     setState((prevState) => ({ ...prevState, lang: lng }));
     localStorage.lang = JSON.stringify(lng);
@@ -25,12 +22,21 @@ const Header = () => {
         <Link to="/" className="navbar-brand">Hexlet Chat</Link>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <DropdownButton align="end" variant="outline" aria-label={t('header.lang')} title={<Globe />}>
+          <DropdownButton
+            align="end"
+            variant="outline"
+            title={(
+              <>
+                <Globe />
+                <span className="visually-hidden">{t('header.lang')}</span>
+              </>
+            )}
+          >
             <Dropdown.Item as="button" onClick={handleChangeLanguage('ru')}>{t('header.langRu')}</Dropdown.Item>
             <Dropdown.Item as="button" onClick={handleChangeLanguage('en')}>{t('header.langEn')}</Dropdown.Item>
           </DropdownButton>
-          {globalState.isLoggedIn
-            ? <Button variant="outline" onClick={handleSignOut}>{t('header.signout')}</Button>
+          {userId.token
+            ? <Button variant="outline" onClick={signOut}>{t('header.signout')}</Button>
             : null}
         </Navbar.Collapse>
       </Container>

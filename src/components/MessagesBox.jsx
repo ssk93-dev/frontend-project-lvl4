@@ -7,12 +7,12 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import Context from '../context.jsx';
+import { UiContext, AuthContext } from '../context.jsx';
 
 const MessageForm = () => {
   const { currentChannelId } = useSelector((state) => state);
-  const { globalState, socket } = useContext(Context);
-  const { user } = globalState;
+  const { socket } = useContext(UiContext);
+  const { userId } = useContext(AuthContext);
   const { t } = useTranslation();
   const inputRef = useRef();
   const formik = useFormik({
@@ -20,7 +20,7 @@ const MessageForm = () => {
       text: '',
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      socket.emit('newMessage', { username: user.username, channelId: currentChannelId, body: values.text }, ({ status }) => {
+      socket.emit('newMessage', { username: userId.username, channelId: currentChannelId, body: values.text }, ({ status }) => {
         if (status === 'ok') {
           setSubmitting(false);
           resetForm();

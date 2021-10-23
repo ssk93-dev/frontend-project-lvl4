@@ -2,22 +2,20 @@ import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
+import { Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { getModalState } from './store/selectors.js';
 import {
   Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute, MyModal, MyToast,
 } from './components';
-import Context from './context.jsx';
+import { UiContext as Context } from './context.jsx';
 
 const App = ({ socket }) => {
   const { i18n } = useTranslation();
-  const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
   const lang = JSON.parse(localStorage.getItem('lang')) ?? 'ru';
   const modalInfo = useSelector(getModalState);
   const initialState = {
-    user: { username, token },
-    isLoggedIn: !!token,
     lang,
   };
   const [globalState, setState] = useState(initialState);
@@ -31,7 +29,7 @@ const App = ({ socket }) => {
       globalState, socket, setState,
     }}
     >
-      <div className="h-100" aria-hidden={modalInfo.show}>
+      <Col className="d-flex flex-column h-100 bg-light" aria-hidden={modalInfo.show}>
         <Router>
           <Header />
           <Switch>
@@ -55,7 +53,7 @@ const App = ({ socket }) => {
             </Route>
           </Switch>
         </Router>
-      </div>
+      </Col>
       <MyModal />
       <MyToast />
     </Context.Provider>

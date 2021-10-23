@@ -7,7 +7,7 @@ import AddChannel from './modals/AddChannel.jsx';
 import RemoveChannel from './modals/RemoveChannel.jsx';
 import RenameChannel from './modals/RenameChannel.jsx';
 import { actions } from '../store/chatSlice.js';
-import Context from '../context.jsx';
+import { UiContext as Context } from '../context.jsx';
 
 const modals = {
   add: AddChannel,

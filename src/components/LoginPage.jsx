@@ -6,25 +6,12 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import Context from '../context.jsx';
-import routes from '../routes.js';
-
-const identifyError = (error) => {
-  if (error.response.status === 401) {
-    return 'errors.authorization';
-  }
-  if (error.isAxiosError) {
-    return 'errors.network';
-  }
-  return 'errors.unknown';
-};
+import { AuthContext } from '../context.jsx';
 
 const LoginForm = () => {
-  const { setState } = useContext(Context);
+  const { logIn, feedback } = useContext(AuthContext);
   const [isAuthFailed, setAuthFailed] = useState(false);
-  const [feedback, setFeedback] = useState('');
   const { t } = useTranslation();
   const inputRef = useRef();
   useEffect(() => {
@@ -38,15 +25,8 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       try {
         setAuthFailed(false);
-        const { data } = await axios.post(routes.loginPath(), values);
-        localStorage.userId = JSON.stringify(data);
-        setState((prevState) => ({
-          ...prevState,
-          user: { username: data.username, token: data.token },
-          isLoggedIn: true,
-        }));
+        await logIn(values);
       } catch (err) {
-        setFeedback(identifyError(err));
         setAuthFailed(true);
       }
     },
