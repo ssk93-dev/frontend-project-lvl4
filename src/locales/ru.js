@@ -62,9 +62,9 @@ export default {
       link: 'На главную',
     },
     modal: {
-      add: 'Добавить',
+      add: 'Отправить',
       required: 'Не должно быть пустым',
-      rename: 'Переименовать',
+      rename: 'Отправить',
       remove: 'Удалить',
       sure: 'Вы уверены?',
       cancel: 'Отмена',
