@@ -1,21 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import Context from '../../context.jsx';
-import { actions } from '../../store/chatSlice.js';
-import { getModalState } from '../../store/selectors.js';
 
-const RemoveChannel = () => {
-  const { socket } = useContext(Context);
-  const { t } = useTranslation();
-  const modalInfo = useSelector(getModalState);
-  const dispatch = useDispatch();
-  const hideModal = () => dispatch(actions.hideModal());
+const RemoveChannel = (props) => {
+  const {
+    item, t, hideModal, socket,
+  } = props;
   const [isSubmitting, setSubmitting] = useState(false);
   const handleRemoveChannel = () => {
     setSubmitting(true);
-    socket.emit('removeChannel', { id: modalInfo.item.id }, ({ status }) => {
+    socket.emit('removeChannel', { id: item.id }, ({ status }) => {
       if (status === 'ok') {
         setSubmitting(false);
         hideModal();
@@ -24,10 +17,7 @@ const RemoveChannel = () => {
   };
 
   return (
-    <Modal show={modalInfo.show} onHide={hideModal} centered>
-      <Modal.Header closeButton onHide={hideModal}>
-        <Modal.Title>{t('modal.remove')}</Modal.Title>
-      </Modal.Header>
+    <>
       <Modal.Body>
         <p>{t('modal.sure')}</p>
       </Modal.Body>
@@ -35,7 +25,7 @@ const RemoveChannel = () => {
         <Button type="button" variant="secondary" className="me-2" onClick={hideModal}>{t('modal.cancel')}</Button>
         <Button type="button" variant="primary" disabled={isSubmitting} onClick={handleRemoveChannel}>{t('modal.remove')}</Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 

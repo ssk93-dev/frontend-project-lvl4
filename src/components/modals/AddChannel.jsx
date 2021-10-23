@@ -1,22 +1,19 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import Context from '../../context.jsx';
 import { actions } from '../../store/chatSlice.js';
-import { getChannelsNames, getModalState } from '../../store/selectors.js';
+import { getChannelsNames } from '../../store/selectors.js';
 
-const AddChannel = () => {
-  const { socket } = useContext(Context);
+const AddChannel = (props) => {
+  const {
+    t, hideModal, socket,
+  } = props;
   const dispatch = useDispatch();
-  const { t } = useTranslation();
   const channelsNames = useSelector(getChannelsNames);
-  const modalInfo = useSelector(getModalState);
-  const hideModal = () => dispatch(actions.hideModal());
   const handleSubmit = (values, { resetForm, setSubmitting }) => {
-    socket.emit('newChannel', { name: values.name }, ({ status }) => {
+    socket.emit('newChannel', { name: values.name.trim() }, ({ status }) => {
       if (status === 'ok') {
         setSubmitting(false);
         resetForm();
@@ -30,7 +27,10 @@ const AddChannel = () => {
     onSubmit: handleSubmit,
     initialValues: { name: '' },
     validationSchema: yup.object().shape({
-      name: yup.string().required('modal.required').max(20, 'modal.long').notOneOf(channelsNames, 'modal.unique'),
+      name: yup.string().trim()
+        .required('modal.required')
+        .max(20, 'modal.long')
+        .notOneOf(channelsNames, 'modal.unique'),
     }),
   });
   const inputRef = useRef();
@@ -39,10 +39,7 @@ const AddChannel = () => {
   }, []);
 
   return (
-    <Modal show={modalInfo.show} onHide={hideModal} centered>
-      <Modal.Header closeButton onHide={hideModal}>
-        <Modal.Title>{t('modal.add')}</Modal.Title>
-      </Modal.Header>
+    <>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit} id="addChannel">
           <Form.Group>
@@ -65,7 +62,7 @@ const AddChannel = () => {
         <Button type="button" variant="secondary" className="me-2" onClick={hideModal}>{t('modal.cancel')}</Button>
         <Button form="addChannel" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('modal.submit')}</Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 

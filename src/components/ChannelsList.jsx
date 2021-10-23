@@ -11,11 +11,11 @@ import { actions } from '../store/chatSlice.js';
 const ChannelsHeader = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const showModal = (payload) => () => dispatch(actions.showModal(payload));
+  const showModal = (type, item) => () => dispatch(actions.showModal({ type, item }));
   return (
     <div className="d-flex justify-content-between mb-2 ps-3 pe-2">
       <span>{t('chat.channels')}</span>
-      <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={showModal({ type: 'adding', item: null })}>
+      <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={showModal('add', null)}>
         <PlusSquare size={20} />
         <span className="visually-hidden">+</span>
       </button>
@@ -28,7 +28,7 @@ const ChannelsList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const handleSetChannel = (id) => () => dispatch(actions.setCurrentChannel({ id }));
-  const showModal = (payload) => () => dispatch(actions.showModal(payload));
+  const showModal = (type, item) => () => dispatch(actions.showModal({ type, item }));
   return (
     <div className="d-flex flex-column h-100">
       <ChannelsHeader />
@@ -56,8 +56,8 @@ const ChannelsList = () => {
                   <>
                     <Dropdown.Toggle split variant={buttonStyle} />
                     <Dropdown.Menu align="end">
-                      <Dropdown.Item onClick={showModal({ type: 'renaming', item: channel })}>{t('modal.rename')}</Dropdown.Item>
-                      <Dropdown.Item onClick={showModal({ type: 'removing', item: channel })}>{t('modal.remove')}</Dropdown.Item>
+                      <Dropdown.Item onClick={showModal('rename', channel)}>{t('modal.rename')}</Dropdown.Item>
+                      <Dropdown.Item onClick={showModal('remove', channel)}>{t('modal.remove')}</Dropdown.Item>
                     </Dropdown.Menu>
                   </>
                 ) : null}

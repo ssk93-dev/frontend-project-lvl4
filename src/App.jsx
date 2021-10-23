@@ -31,7 +31,7 @@ const App = ({ socket }) => {
       globalState, socket, setState,
     }}
     >
-      <div className="d-flex flex-column h-100" aria-hidden={modalInfo.show}>
+      <div className="h-100" aria-hidden={modalInfo.show}>
         <Router>
           <Header />
           <Switch>
