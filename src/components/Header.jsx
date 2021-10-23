@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import {
   Button, Navbar, Container, Dropdown, DropdownButton,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { Globe } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
 import Context from '../context.jsx';
@@ -21,7 +22,7 @@ const Header = () => {
   return (
     <Navbar className="shadow-sm" bg="white">
       <Container>
-        <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
+        <Link to="/" className="navbar-brand">Hexlet Chat</Link>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <DropdownButton align="end" variant="outline" aria-label={t('header.lang')} title={<Globe />}>
