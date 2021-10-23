@@ -2,33 +2,19 @@ import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
-import { Toast, ToastContainer, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { getModalState, getToastState } from './store/selectors.js';
-import { actions } from './store/chatSlice.js';
+import { useSelector } from 'react-redux';
+import { getModalState } from './store/selectors.js';
 import {
-  Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute,
+  Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute, MyModal, MyToast,
 } from './components';
 import Context from './context.jsx';
-import getModal from './components/modals';
-
-const renderModal = (type) => {
-  if (!type) {
-    return null;
-  }
-  const Modal = getModal(type);
-  return <Modal />;
-};
 
 const App = ({ socket }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const { username, token } = JSON.parse(localStorage.getItem('userId')) ?? { username: '', token: '', isLoggedIn: false };
   const lang = JSON.parse(localStorage.getItem('lang')) ?? 'ru';
-  const dispatch = useDispatch();
-  const toastState = useSelector(getToastState);
   const modalInfo = useSelector(getModalState);
-  const hideToast = () => dispatch(actions.handleToast({ toastState: { show: false } }));
   const initialState = {
     user: { username, token },
     isLoggedIn: !!token,
@@ -48,17 +34,6 @@ const App = ({ socket }) => {
       <div className="d-flex flex-column h-100" aria-hidden={modalInfo.show}>
         <Router>
           <Header />
-          <ToastContainer position="top-center">
-            <Toast bg="danger" show={toastState.show} onClose={hideToast}>
-              <Toast.Header>
-                <strong className="me-auto">{t('errors.network')}</strong>
-              </Toast.Header>
-              <Toast.Body className="text-center">
-                {t('errors.lost')}
-                <Spinner animation="border" size="sm" />
-              </Toast.Body>
-            </Toast>
-          </ToastContainer>
           <Switch>
             <Route exact path="/">
               <PrivateRoute path="/login">
@@ -81,7 +56,8 @@ const App = ({ socket }) => {
           </Switch>
         </Router>
       </div>
-      {renderModal(modalInfo.type)}
+      <MyModal />
+      <MyToast />
     </Context.Provider>
   );
 };
