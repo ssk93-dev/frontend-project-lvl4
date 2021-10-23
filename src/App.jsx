@@ -45,19 +45,19 @@ const App = ({ socket }) => {
       globalState, socket, setState,
     }}
     >
-      <ToastContainer position="top-center">
-        <Toast bg="danger" show={toastState.show} onClose={hideToast}>
-          <Toast.Header>
-            <strong className="me-auto">{t('errors.network')}</strong>
-          </Toast.Header>
-          <Toast.Body className="text-center">
-            {t('errors.lost')}
-            <Spinner animation="border" size="sm" />
-          </Toast.Body>
-        </Toast>
-      </ToastContainer>
-      <Router>
+      <Router aria-hidden={modalInfo.show}>
         <Header />
+        <ToastContainer position="top-center">
+          <Toast bg="danger" show={toastState.show} onClose={hideToast}>
+            <Toast.Header>
+              <strong className="me-auto">{t('errors.network')}</strong>
+            </Toast.Header>
+            <Toast.Body className="text-center">
+              {t('errors.lost')}
+              <Spinner animation="border" size="sm" />
+            </Toast.Body>
+          </Toast>
+        </ToastContainer>
         <Switch>
           <Route exact path="/">
             <PrivateRoute path="/login">

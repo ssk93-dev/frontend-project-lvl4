@@ -66,6 +66,7 @@ export default {
       rename: 'Rename',
       remove: 'Remove',
       sure: 'Are you sure?',
+      submit: 'Submit',
       cancel: 'Cancel',
       long: 'Must be less than 20 symbols',
       unique: 'Must be unique',
