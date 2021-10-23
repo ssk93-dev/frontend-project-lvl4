@@ -41,7 +41,7 @@ const AddChannel = () => {
   return (
     <Modal show={modalInfo.show} onHide={hideModal} centered>
       <Modal.Header closeButton onHide={hideModal}>
-        <Modal.Title>{t('modal.add')}</Modal.Title>
+        <Modal.Title>Добавить</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
