@@ -34,7 +34,7 @@ const init = (socket) => {
     <Provider store={store}>
       <I18nextProvider i18n={i18nInstance}>
         <AuthApi>
-          <SocketContext.Provider value={socket}>
+          <SocketContext.Provider value={{ socket }}>
             <App />
           </SocketContext.Provider>
         </AuthApi>
