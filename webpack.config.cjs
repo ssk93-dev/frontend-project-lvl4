@@ -33,10 +33,11 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpg|gif)$/i,
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]',
+          publicPath: 'assets',
         },
       },
       {

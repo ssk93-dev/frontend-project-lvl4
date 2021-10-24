@@ -61,8 +61,7 @@ const LoginPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <Col md={6} className="d-flex align-items-center justify-content-center">
-                <Image src={pic} roundedCircle fluid />
-                <h5>{t('login.logoPlaceholder')}</h5>
+                <Image src={pic} roundedCircle fluid alt={t('login.logoPlaceholder')} />
               </Col>
               <Col md={6} className="mt-3 mt-mb-0">
                 <h1 className="text-center mb-4">{t('login.header')}</h1>
