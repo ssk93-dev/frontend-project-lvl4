@@ -25,7 +25,7 @@ export default {
       langEn: 'English',
     },
     login: {
-      logoPlaceholder: 'Место для логотипа',
+      logoPlaceholder: 'Логотип входа',
       username: 'Ваш ник',
       password: 'Пароль',
       signin: 'Войти',
@@ -35,7 +35,7 @@ export default {
       link: 'Cтраница входа',
     },
     signup: {
-      logoPlaceholder: 'Место для логотипа',
+      logoPlaceholder: 'Логотип регистрации',
       username: 'Имя пользователя',
       password: 'Пароль',
       passwordRepetition: 'Подтвердите пароль',

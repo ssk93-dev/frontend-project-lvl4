@@ -25,7 +25,7 @@ export default {
       langEn: 'English',
     },
     login: {
-      logoPlaceholder: 'Logo placeholder',
+      logoPlaceholder: 'SignIn logo',
       username: 'Username',
       password: 'Password',
       signin: 'Sign In',
@@ -35,7 +35,7 @@ export default {
       link: 'Login page',
     },
     signup: {
-      logoPlaceholder: 'Logo placeholder',
+      logoPlaceholder: 'SignUp logo',
       username: 'Type username',
       password: 'Type password',
       passwordRepetition: 'Repeat password',

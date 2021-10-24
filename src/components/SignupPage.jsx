@@ -2,13 +2,14 @@ import React, {
   useState, useRef, useEffect, useContext,
 } from 'react';
 import {
-  Button, Form, Container, Row, Col, Card, FloatingLabel,
+  Button, Form, Container, Row, Col, Card, FloatingLabel, Image,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context.jsx';
+import pic from '../images/SignIn-image.jpg';
 
 const SignupForm = () => {
   const { signUp, feedback } = useContext(AuthContext);
@@ -74,7 +75,7 @@ const SignupPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <Col md={6} className="d-flex align-items-center justify-content-center">
-                <h5>{t('signup.logoPlaceholder')}</h5>
+                <Image src={pic} roundedCircle fluid alt={t('signup.logoPlaceholder')} />
               </Col>
               <Col md={6} className="mt-3 mt-mb-0">
                 <h1 className="text-center mb-4">{t('signup.header')}</h1>
