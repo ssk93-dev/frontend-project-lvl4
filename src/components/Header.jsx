@@ -5,15 +5,13 @@ import {
 import { Link } from 'react-router-dom';
 import { Globe } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-import { AuthContext, UiContext } from '../context.jsx';
+import { AuthContext } from '../context.jsx';
 
 const Header = () => {
   const { signOut, userId } = useContext(AuthContext);
-  const { setState } = useContext(UiContext);
   const { t, i18n } = useTranslation();
   const handleChangeLanguage = (lng) => () => {
-    setState((prevState) => ({ ...prevState, lang: lng }));
-    localStorage.lang = JSON.stringify(lng);
+    localStorage.setItem('lng', JSON.stringify(lng));
     i18n.changeLanguage(lng);
   };
   return (

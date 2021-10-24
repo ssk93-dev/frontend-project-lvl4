@@ -8,13 +8,16 @@ import { actions } from './store/chatSlice.js';
 import AuthApi from './AuthApi.jsx';
 import App from './App.jsx';
 import resources from './locales/index.js';
+import { SocketContext } from './context.jsx';
 
 const init = (socket) => {
   const i18nInstance = i18next.createInstance();
+  const lng = JSON.parse(localStorage.getItem('lng'));
   i18nInstance
     .use(initReactI18next)
     .init({
       resources,
+      lng,
       fallbackLng: 'ru',
     });
   const timer = (action) => setTimeout(action, 3000);
@@ -31,7 +34,9 @@ const init = (socket) => {
     <Provider store={store}>
       <I18nextProvider i18n={i18nInstance}>
         <AuthApi>
-          <App socket={socket} />
+          <SocketContext.Provider value={socket}>
+            <App />
+          </SocketContext.Provider>
         </AuthApi>
       </I18nextProvider>
     </Provider>

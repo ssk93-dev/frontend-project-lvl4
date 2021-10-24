@@ -7,11 +7,11 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { UiContext, AuthContext } from '../context.jsx';
+import { SocketContext, AuthContext } from '../context.jsx';
 
 const MessageForm = () => {
   const { currentChannelId } = useSelector((state) => state);
-  const { socket } = useContext(UiContext);
+  const { socket } = useContext(SocketContext);
   const { userId } = useContext(AuthContext);
   const { t } = useTranslation();
   const inputRef = useRef();
