@@ -3,19 +3,28 @@
 root: true
 
 plugins:
+  - react
+  - jest
   - functional
+  - testing-library
+  - jest-dom
 
 extends:
   - airbnb
+  - "plugin:jest/recommended"
   - "plugin:functional/external-recommended"
   - "plugin:functional/recommended"
+  - "plugin:react/recommended"
+  - "plugin:react-hooks/recommended"
+  - "plugin:testing-library/react"
+  - "plugin:jest-dom/recommended"
 
 parser: babel-eslint
 
 env:
   browser: true
   node: true
-  jest: true
+  jest/globals: true
 
 settings:
   import/resolver:
