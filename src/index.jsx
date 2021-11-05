@@ -12,9 +12,13 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 const socket = io();
-const vdom = init(socket);
 
-render(
-  vdom,
-  document.getElementById('chat'),
-);
+const startApp = async () => {
+  const vdom = await init(socket);
+
+  render(
+    vdom,
+    document.getElementById('chat'),
+  );
+};
+startApp();

@@ -10,10 +10,10 @@ import App from './App.jsx';
 import resources from './locales/index.js';
 import { SocketContext } from './context.jsx';
 
-const init = (socket) => {
+const init = async (socket) => {
   const i18nInstance = i18next.createInstance();
   const lng = JSON.parse(localStorage.getItem('lng'));
-  i18nInstance
+  await i18nInstance
     .use(initReactI18next)
     .init({
       resources,
@@ -26,10 +26,7 @@ const init = (socket) => {
   socket.on('removeChannel', (data) => store.dispatch(actions.removeChannel(data)));
   socket.on('renameChannel', (channel) => store.dispatch(actions.renameChannel(channel)));
   socket.on('disconnect', () => timer(() => store.dispatch(actions.handleToast({ show: true }))));
-  socket.on('connect', () => {
-    clearTimeout(timer);
-    store.dispatch(actions.handleToast({ show: false }));
-  });
+  socket.on('connect', () => store.dispatch(actions.handleToast({ show: false })));
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18nInstance}>
