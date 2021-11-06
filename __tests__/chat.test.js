@@ -98,7 +98,6 @@ describe('auth', () => {
     userEvent.type(await screen.findByLabelText(/Ваш ник/i), 'guest');
     userEvent.type(await screen.findByLabelText(/Пароль/i), 'pass');
     userEvent.click(await screen.findByRole('button', { name: /Войти/i }));
-
     expect(await screen.findByText(/Неверные имя пользователя или пароль/i)).toBeInTheDocument();
   });
 

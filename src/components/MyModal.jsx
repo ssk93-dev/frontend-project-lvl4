@@ -20,7 +20,7 @@ const getModal = (type) => modals[type];
 const MyModal = () => {
   const dispatch = useDispatch();
   const { show, type, item } = useSelector(getModalState);
-  const { socket } = useContext(SocketContext);
+  const { newChannel, removeChannel, renameChannel } = useContext(SocketContext);
   const { t } = useTranslation();
   const hideModal = () => dispatch(actions.hideModal());
   if (!show) {
@@ -32,7 +32,14 @@ const MyModal = () => {
       <Modal.Header closeButton onHide={hideModal}>
         <Modal.Title>{t(`modal.${type}`)}</Modal.Title>
       </Modal.Header>
-      <Component item={item} hideModal={hideModal} socket={socket} t={t} />
+      <Component
+        item={item}
+        hideModal={hideModal}
+        newChannel={newChannel}
+        removeChannel={removeChannel}
+        renameChannel={renameChannel}
+        t={t}
+      />
     </Modal>
   );
 };

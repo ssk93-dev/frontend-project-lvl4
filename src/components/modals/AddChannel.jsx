@@ -1,27 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
-import { actions } from '../../store/chatSlice.js';
 import { getChannelsNames } from '../../store/selectors.js';
 
 const AddChannel = (props) => {
   const {
-    t, hideModal, socket,
+    t, hideModal, newChannel,
   } = props;
-  const dispatch = useDispatch();
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = (values, { resetForm, setSubmitting }) => {
-    socket.emit('newChannel', { name: values.name.trim() }, ({ status }) => {
-      if (status === 'ok') {
-        setSubmitting(false);
-        resetForm();
-        socket.once('newChannel', ({ id }) => dispatch(actions.setCurrentChannel({ id })));
-        hideModal();
-      }
-    });
-  };
+  const handleSubmit = (values, { resetForm, setSubmitting }) => newChannel(
+    { name: values.name.trim() },
+  ).then(() => {
+    setSubmitting(false);
+    resetForm();
+    hideModal();
+  });
 
   const formik = useFormik({
     onSubmit: handleSubmit,

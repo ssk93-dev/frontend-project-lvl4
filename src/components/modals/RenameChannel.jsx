@@ -7,17 +7,15 @@ import { getChannelsNames } from '../../store/selectors.js';
 
 const RenameChannel = (props) => {
   const {
-    item, t, hideModal, socket,
+    item, t, hideModal, renameChannel,
   } = props;
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = () => (values, { setSubmitting }) => {
-    socket.emit('renameChannel', { id: item.id, name: values.name.trim() }, ({ status }) => {
-      if (status === 'ok') {
-        setSubmitting(false);
-        hideModal();
-      }
-    });
-  };
+  const handleSubmit = () => (values, { setSubmitting }) => renameChannel(
+    { id: item.id, name: values.name.trim() },
+  ).then(() => {
+    setSubmitting(false);
+    hideModal();
+  });
 
   const formik = useFormik({
     onSubmit: handleSubmit(),

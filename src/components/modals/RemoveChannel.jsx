@@ -3,17 +3,16 @@ import { Modal, Button } from 'react-bootstrap';
 
 const RemoveChannel = (props) => {
   const {
-    item, t, hideModal, socket,
+    item, t, hideModal, removeChannel,
   } = props;
   const [isSubmitting, setSubmitting] = useState(false);
   const handleRemoveChannel = () => {
     setSubmitting(true);
-    socket.emit('removeChannel', { id: item.id }, ({ status }) => {
-      if (status === 'ok') {
+    removeChannel({ id: item.id })
+      .then(() => {
         setSubmitting(false);
         hideModal();
-      }
-    });
+      });
   };
 
   return (

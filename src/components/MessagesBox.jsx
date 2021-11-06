@@ -11,7 +11,7 @@ import { SocketContext, AuthContext } from '../context.jsx';
 
 const MessageForm = () => {
   const { currentChannelId } = useSelector((state) => state);
-  const { socket } = useContext(SocketContext);
+  const { newMessage } = useContext(SocketContext);
   const { userId } = useContext(AuthContext);
   const { t } = useTranslation();
   const inputRef = useRef();
@@ -19,14 +19,12 @@ const MessageForm = () => {
     initialValues: {
       text: '',
     },
-    onSubmit: (values, { resetForm, setSubmitting }) => {
-      socket.emit('newMessage', { username: userId.username, channelId: currentChannelId, body: values.text }, ({ status }) => {
-        if (status === 'ok') {
-          setSubmitting(false);
-          resetForm();
-        }
-      });
-    },
+    onSubmit: (values, { resetForm, setSubmitting }) => newMessage(
+      { username: userId.username, channelId: currentChannelId, body: values.text },
+    ).then(() => {
+      setSubmitting(false);
+      resetForm();
+    }),
   });
   useEffect(() => {
     inputRef.current.focus();
