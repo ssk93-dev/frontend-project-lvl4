@@ -10,13 +10,13 @@ const AddChannel = (props) => {
     t, hideModal, newChannel,
   } = props;
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = (values, { resetForm, setSubmitting }) => newChannel(
+  const handleSubmit = (values, { resetForm, setSubmitting, setFieldError }) => newChannel(
     { name: values.name.trim() },
   ).then(() => {
     setSubmitting(false);
     resetForm();
     hideModal();
-  });
+  }).catch((error) => setFieldError('name', error));
 
   const formik = useFormik({
     onSubmit: handleSubmit,

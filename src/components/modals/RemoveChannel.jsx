@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import {
+  Modal, Button, Alert,
+} from 'react-bootstrap';
 
 const RemoveChannel = (props) => {
   const {
     item, t, hideModal, removeChannel,
   } = props;
   const [isSubmitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const handleRemoveChannel = () => {
+    setError(null);
     setSubmitting(true);
     removeChannel({ id: item.id })
       .then(() => {
         setSubmitting(false);
         hideModal();
-      });
+      }).catch((err) => setError(err));
   };
 
   return (
     <>
       <Modal.Body>
+        <Alert show={!!error} variant="danger">{t(error)}</Alert>
         <p>{t('modal.sure')}</p>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-end">

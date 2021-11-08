@@ -4,7 +4,7 @@ import { SocketContext } from './context.jsx';
 import { actions } from './store/chatSlice.js';
 
 const socketApi = (socket) => {
-  const error = new Error('Connection error');
+  const error = 'errors.network';
   const subscribe = () => {
     socket.on('newMessage', (messageWithId) => store.dispatch(actions.addMessage({ message: messageWithId })));
     socket.on('newChannel', (channelWithId) => store.dispatch(actions.addChannel({ channel: channelWithId })));
@@ -32,11 +32,11 @@ const socketApi = (socket) => {
       value={{
         newMessage: promisifySocket((...payload) => socket.volatile.emit('newMessage', ...payload)),
         newChannel: promisifySocket((...payload) => {
-          socket.emit('newChannel', ...payload);
+          socket.volatile.emit('newChannel', ...payload);
           socket.once('newChannel', ({ id }) => store.dispatch(actions.setCurrentChannel({ id })));
         }),
-        removeChannel: promisifySocket((...payload) => socket.emit('removeChannel', ...payload)),
-        renameChannel: promisifySocket((...payload) => socket.emit('renameChannel', ...payload)),
+        removeChannel: promisifySocket((...payload) => socket.volatile.emit('removeChannel', ...payload)),
+        renameChannel: promisifySocket((...payload) => socket.volatile.emit('renameChannel', ...payload)),
       }}
     >
       {children}

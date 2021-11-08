@@ -14,17 +14,17 @@ const MessageForm = () => {
   const { newMessage } = useContext(SocketContext);
   const { userId } = useContext(AuthContext);
   const { t } = useTranslation();
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const formik = useFormik({
     initialValues: {
       text: '',
     },
-    onSubmit: (values, { resetForm, setSubmitting }) => newMessage(
+    onSubmit: (values, { resetForm, setSubmitting, setFieldError }) => newMessage(
       { username: userId.username, channelId: currentChannelId, body: values.text },
     ).then(() => {
       setSubmitting(false);
       resetForm();
-    }),
+    }).catch((error) => setFieldError('text', error)),
   });
   useEffect(() => {
     inputRef.current.focus();
@@ -33,7 +33,18 @@ const MessageForm = () => {
     <Form onSubmit={formik.handleSubmit}>
       <InputGroup>
         <Form.Label visuallyHidden>{t('messages.input')}</Form.Label>
-        <Form.Control ref={inputRef} name="text" data-testid="new-message" type="text" placeholder={t('messages.input')} onChange={formik.handleChange} value={formik.values.text} disabled={formik.isSubmitting} />
+        <Form.Control.Feedback type="invalid">{t(formik.errors.text)}</Form.Control.Feedback>
+        <Form.Control
+          ref={inputRef}
+          name="text"
+          data-testid="new-message"
+          type="text"
+          placeholder={t('messages.input')}
+          onChange={formik.handleChange}
+          value={formik.values.text}
+          disabled={formik.isSubmitting}
+          isInvalid={formik.errors.text}
+        />
         <InputGroup.Text>
           <Button className="btn-group-vertical" type="submit" variant="outline" disabled={!formik.values.text || formik.isSubmitting}>
             <ArrowRightSquare size={20} />

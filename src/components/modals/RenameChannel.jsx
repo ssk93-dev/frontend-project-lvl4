@@ -10,12 +10,12 @@ const RenameChannel = (props) => {
     item, t, hideModal, renameChannel,
   } = props;
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = () => (values, { setSubmitting }) => renameChannel(
+  const handleSubmit = () => (values, { setSubmitting, setFieldError }) => renameChannel(
     { id: item.id, name: values.name.trim() },
   ).then(() => {
     setSubmitting(false);
     hideModal();
-  });
+  }).catch((error) => setFieldError('name', error));
 
   const formik = useFormik({
     onSubmit: handleSubmit(),
