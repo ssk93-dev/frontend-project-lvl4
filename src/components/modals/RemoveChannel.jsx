@@ -16,7 +16,10 @@ const RemoveChannel = (props) => {
       .then(() => {
         setSubmitting(false);
         hideModal();
-      }).catch((err) => setError(err));
+      }).catch((err) => {
+        setError(err);
+        setSubmitting(false);
+      });
   };
 
   return (
