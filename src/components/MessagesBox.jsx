@@ -62,7 +62,7 @@ const MessagesBox = () => {
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
   const { t } = useTranslation();
   const messagesEndRef = useRef(null);
-  useEffect(() => messagesEndRef.current.scrollIntoView({ behavior: 'smooth' }), [messages]);
+  useEffect(() => messagesEndRef.current.scrollIntoView({ behavior: 'smooth' }), [messages, currentChannelId]);
   return (
     <>
       <div className="d-flex flex-column h-100">
