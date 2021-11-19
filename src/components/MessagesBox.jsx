@@ -7,6 +7,7 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { ApiContext, AuthContext } from '../context.jsx';
 
 const MessageForm = () => {
@@ -20,7 +21,7 @@ const MessageForm = () => {
       text: '',
     },
     onSubmit: (values, { resetForm, setSubmitting, setFieldError }) => newMessage(
-      { username: userId.username, channelId: currentChannelId, body: values.text },
+      { username: userId.username, channelId: currentChannelId, body: filter.clean(values.text) },
     ).then(() => {
       setSubmitting(false);
       resetForm();
