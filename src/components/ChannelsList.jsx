@@ -55,7 +55,7 @@ const ChannelsList = () => {
                 {channel.removable ? (
                   <>
                     <Dropdown.Toggle split variant={buttonStyle} />
-                    <Dropdown.Menu align="end">
+                    <Dropdown.Menu align="end" aria-label="Управление каналом">
                       <Dropdown.Item onClick={showModal('rename', channel)}>{t('modal.rename')}</Dropdown.Item>
                       <Dropdown.Item onClick={showModal('remove', channel)}>{t('modal.remove')}</Dropdown.Item>
                     </Dropdown.Menu>
