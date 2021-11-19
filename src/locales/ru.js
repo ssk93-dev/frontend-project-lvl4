@@ -1,7 +1,7 @@
 export default {
   translation: {
     errors: {
-      network: 'Ошибка сети',
+      network: 'Ошибка соединения',
       unknown: 'Что-то пошло не так.',
       authorization: 'Неверные имя пользователя или пароль',
       signup: 'Пользователь уже существует',
