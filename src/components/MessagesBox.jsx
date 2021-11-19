@@ -37,6 +37,7 @@ const MessageForm = () => {
         <Form.Control
           ref={inputRef}
           name="text"
+          aria-label="Новое сообщение"
           data-testid="new-message"
           type="text"
           placeholder={t('messages.input')}

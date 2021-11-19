@@ -46,6 +46,7 @@ const RenameChannel = (props) => {
               value={formik.values.name}
               name="name"
               isInvalid={formik.errors.name}
+              aria-label="Новое имя канала"
               data-testid="rename-channel"
               disabled={formik.isSubmitting}
             />

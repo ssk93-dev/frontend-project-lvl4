@@ -46,6 +46,7 @@ const AddChannel = (props) => {
               value={formik.values.name}
               name="name"
               isInvalid={formik.errors.name}
+              aria-label="Имя канала"
               data-testid="add-channel"
               disabled={formik.isSubmitting}
             />
