@@ -18,14 +18,14 @@ const getAuthHeader = () => {
   return {};
 };
 const identifyError = (error) => {
+  if (error.isAxiosError) {
+    return 'errors.network';
+  }
   if (error.response.status === 401) {
     return 'errors.authorization';
   }
   if (error.response.status === 409) {
     return 'errors.signup';
-  }
-  if (error.isAxiosError) {
-    return 'errors.network';
   }
   return 'errors.unknown';
 };
