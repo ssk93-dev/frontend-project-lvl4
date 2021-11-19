@@ -1,18 +1,10 @@
 import React from 'react';
 import store from './store/index.js';
-import { SocketContext } from './context.jsx';
+import { ApiContext } from './context.jsx';
 import { actions } from './store/chatSlice.js';
 
-const socketApi = (socket) => {
+const getApi = (socket) => {
   const error = 'errors.network';
-  const subscribe = () => {
-    socket.on('newMessage', (messageWithId) => store.dispatch(actions.addMessage({ message: messageWithId })));
-    socket.on('newChannel', (channelWithId) => store.dispatch(actions.addChannel({ channel: channelWithId })));
-    socket.on('removeChannel', (data) => store.dispatch(actions.removeChannel(data)));
-    socket.on('renameChannel', (channel) => store.dispatch(actions.renameChannel(channel)));
-    socket.on('disconnect', () => store.dispatch(actions.handleToast({ show: true })));
-    socket.on('connect', () => store.dispatch(actions.handleToast({ show: false })));
-  };
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       store.dispatch(actions.handleToast({ show: true }));
@@ -27,8 +19,8 @@ const socketApi = (socket) => {
       reject(error);
     });
   });
-  const SocketProvider = ({ children }) => (
-    <SocketContext.Provider
+  const ApiProvider = ({ children }) => (
+    <ApiContext.Provider
       value={{
         newMessage: promisifySocket((...payload) => socket.volatile.emit('newMessage', ...payload)),
         newChannel: promisifySocket((...payload) => {
@@ -40,9 +32,9 @@ const socketApi = (socket) => {
       }}
     >
       {children}
-    </SocketContext.Provider>
+    </ApiContext.Provider>
   );
-  return { subscribe, SocketProvider };
+  return ApiProvider;
 };
 
-export default socketApi;
+export default getApi;

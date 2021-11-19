@@ -7,7 +7,7 @@ import AddChannel from './modals/AddChannel.jsx';
 import RemoveChannel from './modals/RemoveChannel.jsx';
 import RenameChannel from './modals/RenameChannel.jsx';
 import { actions } from '../store/chatSlice.js';
-import { SocketContext } from '../context.jsx';
+import { ApiContext } from '../context.jsx';
 
 const modals = {
   add: AddChannel,
@@ -20,7 +20,7 @@ const getModal = (type) => modals[type];
 const MyModal = () => {
   const dispatch = useDispatch();
   const { show, type, item } = useSelector(getModalState);
-  const { newChannel, removeChannel, renameChannel } = useContext(SocketContext);
+  const { newChannel, removeChannel, renameChannel } = useContext(ApiContext);
   const { t } = useTranslation();
   const hideModal = () => dispatch(actions.hideModal());
   if (!show) {
