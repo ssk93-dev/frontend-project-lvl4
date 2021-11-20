@@ -35,27 +35,24 @@ const identifyError = (error) => {
 const AuthApi = ({ children }) => {
   const dispatch = useDispatch();
   const [userId, setUserId] = useState(getAuthData());
-  const [feedback, setFeedback] = useState('');
   const logIn = async ({ username, password }) => {
     try {
-      setFeedback('');
       const { data } = await axios.post(routes.loginPath(), { username, password });
       localStorage.setItem('userId', JSON.stringify(data));
       setUserId(data);
+      return null;
     } catch (err) {
-      setFeedback(identifyError(err));
-      throw err;
+      throw identifyError(err);
     }
   };
   const signUp = async ({ username, password }) => {
     try {
-      setFeedback('');
       const { data } = await axios.post(routes.signupPath(), { username, password });
       localStorage.setItem('userId', JSON.stringify(data));
       setUserId(data);
+      return null;
     } catch (err) {
-      setFeedback(identifyError(err));
-      throw err;
+      throw identifyError(err);
     }
   };
   const signOut = () => {
@@ -64,16 +61,18 @@ const AuthApi = ({ children }) => {
   };
   const loadData = async () => {
     try {
-      setFeedback('');
+      dispatch(actions.handleToast({ show: false }));
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       dispatch(actions.initChannels(data));
+      return null;
     } catch (err) {
-      setFeedback(identifyError(err));
+      dispatch(actions.handleToast({ show: true }));
+      return null;
     }
   };
   return (
     <AuthContext.Provider value={{
-      logIn, signUp, signOut, loadData, feedback, userId,
+      logIn, signUp, signOut, loadData, userId,
     }}
     >
       {children}

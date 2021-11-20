@@ -162,30 +162,82 @@ describe('chat', () => {
     userEvent.type(await screen.findByLabelText(/Ваш ник/i), 'user');
     userEvent.type(await screen.findByLabelText(/Пароль/i), 'pass');
     userEvent.click(await screen.findByRole('button', { name: /Войти/i }));
-    await screen.findByTestId('new-message');
+    await screen.findByLabelText(/Новое сообщение/i);
   });
 
   test('messaging', async () => {
-    userEvent.type(await screen.findByTestId('new-message'), 'hello');
+    userEvent.type(await screen.findByLabelText(/Новое сообщение/i), 'hello');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
     expect(await screen.findByText(/hello/i)).toBeInTheDocument();
   });
 
+  test('profanity filter', async () => {
+    const profanityText = 'you have nice boobs';
+    userEvent.type(await screen.findByLabelText(/Новое сообщение/i), profanityText);
+    userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
+    userEvent.type(await screen.findByLabelText(/Новое сообщение/i), 'your have nice boobs');
+    expect(screen.queryByText(profanityText)).not.toBeInTheDocument();
+    expect(await screen.findByText(/you have nice \*\*\*\*\*/i)).toBeInTheDocument();
+  });
+
   test('different channels', async () => {
-    userEvent.type(await screen.findByTestId('new-message'), 'message for general');
+    userEvent.type(await screen.findByLabelText(/Новое сообщение/i), 'message for general');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
     expect(await screen.findByText(/message for general/i)).toBeInTheDocument();
     userEvent.click(await screen.findByRole('button', { name: /random/i }));
     expect(screen.queryByText(/message for general/i)).not.toBeInTheDocument();
-    userEvent.type(await screen.findByTestId('new-message'), 'message for random');
+    userEvent.type(await screen.findByLabelText(/Новое сообщение/i), 'message for random');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
     expect(await screen.findByText(/message for random/i)).toBeInTheDocument();
   });
 
   test('adding channel', async () => {
     userEvent.click(await screen.findByRole('button', { name: '+' }));
-    userEvent.type(await screen.findByTestId('add-channel'), 'test channel');
+    userEvent.type(await screen.findByLabelText(/Имя канала/i), 'test channel');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
+
     expect(await screen.findByRole('button', { name: /test channel/i })).toBeInTheDocument();
+  });
+
+  test('rename channel', async () => {
+    userEvent.click(await screen.findByRole('button', { name: '+' }));
+    userEvent.type(await screen.findByLabelText(/Имя канала/i), 'test channel');
+    userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
+
+    userEvent.click(await screen.findByLabelText(/Управление каналом/i));
+    userEvent.click(await screen.findByLabelText(/Переименовать/i));
+    userEvent.type(await screen.findByLabelText(/Новое имя канала/i), 'new test channel');
+    userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
+
+    expect(await screen.findByRole('button', { name: /new test channel/i })).toBeInTheDocument();
+  });
+
+  test('remove channel', async () => {
+    userEvent.click(await screen.findByRole('button', { name: '+' }));
+    userEvent.type(await screen.findByLabelText(/Имя канала/i), 'test channel');
+    userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
+
+    userEvent.click(await screen.findByLabelText(/Управление каналом/i));
+    userEvent.click(await screen.findByLabelText(/Удалить/i));
+    userEvent.click(await screen.findByRole('button', { name: /Удалить/i }));
+
+    expect(screen.queryByText(/new test channel/i)).not.toBeInTheDocument();
+  });
+});
+
+describe('toastr check error', () => {
+  beforeEach(() => {
+    server.use(
+      rest.post('/api/v1/login', mockSignin),
+      rest.get('/api/v1/data', (req, res, ctx) => res(ctx.status(500))),
+    );
+  });
+
+  test('check error', async () => {
+    userEvent.type(await screen.findByLabelText(/Ваш ник/i), 'user');
+    userEvent.type(await screen.findByLabelText(/Пароль/i), 'pass');
+    userEvent.click(await screen.findByRole('button', { name: /Войти/i }));
+
+    expect(await screen.findByText(/Ошибка соединения/i)).toBeInTheDocument();
   });
 });

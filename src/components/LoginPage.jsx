@@ -11,8 +11,9 @@ import { AuthContext } from '../context.jsx';
 import pic from '../images/SignIn-image.jpg';
 
 const LoginForm = () => {
-  const { logIn, feedback } = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
   const [isAuthFailed, setAuthFailed] = useState(false);
+  const [feedback, setFeedback] = useState('');
   const { t } = useTranslation();
   const inputRef = useRef();
   useEffect(() => {
@@ -26,9 +27,11 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       try {
         setAuthFailed(false);
+        setFeedback('');
         await logIn(values);
       } catch (err) {
         setAuthFailed(true);
+        setFeedback(err);
       }
     },
   });

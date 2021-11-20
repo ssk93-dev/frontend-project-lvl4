@@ -47,7 +47,6 @@ const AddChannel = (props) => {
               name="name"
               isInvalid={formik.errors.name}
               aria-label="Имя канала"
-              data-testid="add-channel"
               disabled={formik.isSubmitting}
             />
             <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>

@@ -47,7 +47,6 @@ const RenameChannel = (props) => {
               name="name"
               isInvalid={formik.errors.name}
               aria-label="Новое имя канала"
-              data-testid="rename-channel"
               disabled={formik.isSubmitting}
             />
             <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
