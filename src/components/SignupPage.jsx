@@ -4,6 +4,7 @@ import React, {
 import {
   Button, Form, Container, Row, Col, Card, FloatingLabel, Image,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -12,7 +13,7 @@ import { AuthContext } from '../context.jsx';
 import pic from '../images/SignIn-image.jpg';
 
 const SignupForm = () => {
-  const { signUp, feedback } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
   const [isAuthFailed, setAuthFailed] = useState(false);
   const { t } = useTranslation();
   const inputRef = useRef();
@@ -31,11 +32,18 @@ const SignupForm = () => {
       passwordRepetition: yup.string().required('errors.password.confirmRequired').oneOf([yup.ref('password'), null], 'errors.password.mustMatch'),
     }),
     onSubmit: async (values) => {
+      const toastId = toast.loading(t('loading'), { toastId: 'signup' });
       try {
         setAuthFailed(false);
         await signUp(values);
+        toast.update(toastId, {
+          render: t('signup.success'), type: 'success', isLoading: false, autoClose: 3000,
+        });
       } catch (err) {
         setAuthFailed(true);
+        toast.update(toastId, {
+          render: t(err), type: 'error', isLoading: false, autoClose: 3000,
+        });
       }
     },
   });
@@ -44,7 +52,7 @@ const SignupForm = () => {
       <Form.Group className="mb-3">
         <FloatingLabel controlId="username" label={t('signup.username')}>
           <Form.Control ref={inputRef} type="text" name="username" required placeholder="username" onChange={formik.handleChange} value={formik.values.username} isInvalid={formik.errors.username || isAuthFailed} />
-          <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.username ?? feedback)}</Form.Control.Feedback>
+          <Form.Control.Feedback tooltip type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
       <Form.Group className="mb-3">

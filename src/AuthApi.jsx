@@ -40,7 +40,6 @@ const AuthApi = ({ children }) => {
       const { data } = await axios.post(routes.loginPath(), { username, password });
       localStorage.setItem('userId', JSON.stringify(data));
       setUserId(data);
-      return null;
     } catch (err) {
       throw identifyError(err);
     }
@@ -50,7 +49,6 @@ const AuthApi = ({ children }) => {
       const { data } = await axios.post(routes.signupPath(), { username, password });
       localStorage.setItem('userId', JSON.stringify(data));
       setUserId(data);
-      return null;
     } catch (err) {
       throw identifyError(err);
     }
@@ -61,13 +59,10 @@ const AuthApi = ({ children }) => {
   };
   const loadData = async () => {
     try {
-      dispatch(actions.handleToast({ show: false }));
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       dispatch(actions.initChannels(data));
-      return null;
     } catch (err) {
-      dispatch(actions.handleToast({ show: true }));
-      return null;
+      throw identifyError(err);
     }
   };
   return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import { getChannelsNames } from '../../store/selectors.js';
@@ -10,12 +11,21 @@ const RenameChannel = (props) => {
     item, t, hideModal, renameChannel,
   } = props;
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = () => (values, { setSubmitting, setFieldError }) => renameChannel(
-    { id: item.id, name: values.name.trim() },
-  ).then(() => {
-    setSubmitting(false);
-    hideModal();
-  }).catch((error) => setFieldError('name', error));
+  const handleSubmit = () => async (values, { setSubmitting }) => {
+    const toastId = toast.loading(t('loading'));
+    try {
+      await renameChannel({ id: item.id, name: values.name.trim() });
+      toast.update(toastId, {
+        render: t('modal.renamed'), type: 'success', isLoading: false, autoClose: 3000,
+      });
+      setSubmitting(false);
+      hideModal();
+    } catch (err) {
+      toast.update(toastId, {
+        render: t(err), type: 'error', isLoading: false, autoClose: 3000,
+      });
+    }
+  };
 
   const formik = useFormik({
     onSubmit: handleSubmit(),

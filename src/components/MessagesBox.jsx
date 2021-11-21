@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   Form, InputGroup, Button,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import _ from 'lodash';
@@ -20,12 +21,19 @@ const MessageForm = () => {
     initialValues: {
       text: '',
     },
-    onSubmit: (values, { resetForm, setSubmitting, setFieldError }) => newMessage(
-      { username: userId.username, channelId: currentChannelId, body: filter.clean(values.text) },
-    ).then(() => {
-      setSubmitting(false);
-      resetForm();
-    }).catch((error) => setFieldError('text', error)),
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      try {
+        setSubmitting(true);
+        await newMessage({
+          username: userId.username, channelId: currentChannelId, body: filter.clean(values.text),
+        });
+        setSubmitting(false);
+        resetForm();
+      } catch (err) {
+        toast.error(t(err), { autoClose: 3000 });
+        setSubmitting(false);
+      }
+    },
   });
   useEffect(() => {
     inputRef.current.focus();
@@ -44,7 +52,6 @@ const MessageForm = () => {
           onChange={formik.handleChange}
           value={formik.values.text}
           disabled={formik.isSubmitting}
-          isInvalid={formik.errors.text}
         />
         <InputGroup.Text>
           <Button className="btn-group-vertical" type="submit" variant="outline" disabled={!formik.values.text || formik.isSubmitting}>

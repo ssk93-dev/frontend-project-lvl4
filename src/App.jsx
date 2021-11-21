@@ -3,10 +3,11 @@ import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { getModalState } from './store/selectors.js';
 import {
-  Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute, MyModal, MyToast,
+  Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute, MyModal,
 } from './components';
 
 const App = () => {
@@ -40,7 +41,17 @@ const App = () => {
         </Router>
       </Col>
       <MyModal />
-      <MyToast />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 };

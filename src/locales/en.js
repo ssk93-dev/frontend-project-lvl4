@@ -18,6 +18,7 @@ export default {
         long: 'Must be less than 20 symbols',
       },
     },
+    loading: 'Loading...',
     header: {
       signout: 'Sign Out',
       lang: 'Language',
@@ -43,6 +44,7 @@ export default {
       header: 'Sign Up',
       footer: 'Already have an account?',
       link: 'Login page',
+      success: 'Successful registered!',
     },
     chat: {
       channels: 'Channels',
@@ -62,9 +64,12 @@ export default {
     },
     modal: {
       add: 'Add',
+      added: 'Channel added',
       required: 'Required',
       rename: 'Rename',
+      renamed: 'Channel renamed',
       remove: 'Remove',
+      removed: 'Channel removed',
       sure: 'Are you sure?',
       submit: 'Submit',
       cancel: 'Cancel',

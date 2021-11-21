@@ -6,7 +6,6 @@ import NotFound from './NotFound.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import PublicRoute from './PublicRoute.jsx';
 import MyModal from './MyModal.jsx';
-import MyToast from './MyToast.jsx';
 
 export {
   Header,
@@ -17,5 +16,4 @@ export {
   PrivateRoute,
   PublicRoute,
   MyModal,
-  MyToast,
 };

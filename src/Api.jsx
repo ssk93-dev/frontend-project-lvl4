@@ -7,13 +7,11 @@ const getApi = (socket) => {
   const error = 'errors.network';
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      store.dispatch(actions.handleToast({ show: true }));
       reject(error);
     }, 3000);
     socketFunction(...payload, ({ status }) => {
       clearTimeout(timer);
       if (status === 'ok') {
-        store.dispatch(actions.handleToast({ show: false }));
         resolve();
       }
       reject(error);

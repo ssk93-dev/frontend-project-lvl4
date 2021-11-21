@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { getChannelsNames } from '../../store/selectors.js';
@@ -10,13 +11,22 @@ const AddChannel = (props) => {
     t, hideModal, newChannel,
   } = props;
   const channelsNames = useSelector(getChannelsNames);
-  const handleSubmit = (values, { resetForm, setSubmitting, setFieldError }) => newChannel(
-    { name: values.name.trim() },
-  ).then(() => {
-    setSubmitting(false);
-    resetForm();
-    hideModal();
-  }).catch((error) => setFieldError('name', error));
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+    const toastId = toast.loading(t('loading'));
+    try {
+      await newChannel({ name: values.name.trim() });
+      toast.update(toastId, {
+        render: t('modal.added'), type: 'success', isLoading: false, autoClose: 3000,
+      });
+      setSubmitting(false);
+      resetForm();
+      hideModal();
+    } catch (err) {
+      toast.update(toastId, {
+        render: t(err), type: 'error', isLoading: false, autoClose: 3000,
+      });
+    }
+  };
 
   const formik = useFormik({
     onSubmit: handleSubmit,

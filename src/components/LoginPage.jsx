@@ -4,6 +4,7 @@ import React, {
 import {
   Button, Form, Container, Row, Col, Card, FloatingLabel, Image,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,6 @@ import pic from '../images/SignIn-image.jpg';
 const LoginForm = () => {
   const { logIn } = useContext(AuthContext);
   const [isAuthFailed, setAuthFailed] = useState(false);
-  const [feedback, setFeedback] = useState('');
   const { t } = useTranslation();
   const inputRef = useRef();
   useEffect(() => {
@@ -25,13 +25,16 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: async (values) => {
+      const toastId = toast.loading(t('loading'), { toastId: 'loading' });
       try {
         setAuthFailed(false);
-        setFeedback('');
         await logIn(values);
+        toast.dismiss(toastId);
       } catch (err) {
         setAuthFailed(true);
-        setFeedback(err);
+        toast.update(toastId, {
+          render: t(err), type: 'error', isLoading: false, autoClose: 3000,
+        });
       }
     },
   });
@@ -45,7 +48,6 @@ const LoginForm = () => {
       <Form.Group className="mb-3">
         <FloatingLabel controlId="password" label={t('login.password')}>
           <Form.Control type="password" required placeholder="password" onChange={formik.handleChange} value={formik.values.password} isInvalid={isAuthFailed} />
-          <Form.Control.Feedback tooltip type="invalid">{t(feedback)}</Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100 mb-3" disabled={formik.isSubmitting}>

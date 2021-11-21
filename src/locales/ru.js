@@ -18,6 +18,7 @@ export default {
         long: 'От 3 до 20 символов',
       },
     },
+    loading: 'Загрузка...',
     header: {
       signout: 'Выйти',
       lang: 'Язык',
@@ -43,6 +44,7 @@ export default {
       header: 'Регистрация',
       footer: 'Уже зарегистрированы?',
       link: 'Cтраница входа',
+      success: 'Регистрация успешна!',
     },
     chat: {
       channels: 'Каналы',
@@ -63,9 +65,12 @@ export default {
     },
     modal: {
       add: 'Добавить',
+      added: 'Канал создан',
       required: 'Не должно быть пустым',
       rename: 'Переименовать',
+      renamed: 'Канал переименован',
       remove: 'Удалить',
+      removed: 'Канал удалён',
       sure: 'Вы уверены?',
       submit: 'Отправить',
       cancel: 'Отмена',

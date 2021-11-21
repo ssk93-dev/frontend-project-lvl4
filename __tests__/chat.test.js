@@ -196,6 +196,7 @@ describe('chat', () => {
     userEvent.type(await screen.findByLabelText(/Имя канала/i), 'test channel');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
 
+    expect(await screen.findByText(/Канал создан/i)).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: /test channel/i })).toBeInTheDocument();
   });
 
@@ -209,6 +210,7 @@ describe('chat', () => {
     userEvent.type(await screen.findByLabelText(/Новое имя канала/i), 'new test channel');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
 
+    expect(await screen.findByText(/Канал переименован/i)).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: /new test channel/i })).toBeInTheDocument();
   });
 
@@ -221,6 +223,7 @@ describe('chat', () => {
     userEvent.click(await screen.findByLabelText(/Удалить/i));
     userEvent.click(await screen.findByRole('button', { name: /Удалить/i }));
 
+    expect(await screen.findByText(/Канал удалён/i)).toBeInTheDocument();
     expect(screen.queryByText(/new test channel/i)).not.toBeInTheDocument();
   });
 });
