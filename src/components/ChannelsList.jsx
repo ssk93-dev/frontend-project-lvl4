@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import {
   Button, ButtonGroup, Dropdown, Nav,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { PlusSquare } from 'react-bootstrap-icons';
+import { PlusSquare, PersonFill } from 'react-bootstrap-icons';
 import { actions } from '../store/chatSlice.js';
+import { AuthContext } from '../context.jsx';
 
 const ChannelsHeader = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { userId } = useContext(AuthContext);
   const showModal = (type, item) => () => dispatch(actions.showModal({ type, item }));
   return (
-    <div className="d-flex justify-content-between mb-2 ps-3 pe-2">
-      <span>{t('chat.channels')}</span>
-      <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={showModal('add', null)}>
-        <PlusSquare size={20} />
-        <span className="visually-hidden">+</span>
-      </button>
-    </div>
+    <>
+      <div className="d-flex justify-content-start mb-2 ps-3 pe-2">
+        <PersonFill size={20} />
+        <b className="ps-2">{`${userId.username}`}</b>
+      </div>
+      <div className="d-flex justify-content-between mb-2 ps-3 pe-2">
+        <span>{t('chat.channels')}</span>
+        <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={showModal('add', null)}>
+          <PlusSquare size={20} />
+          <span className="visually-hidden">+</span>
+        </button>
+      </div>
+    </>
   );
 };
 
