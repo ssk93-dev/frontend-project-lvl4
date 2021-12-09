@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Provider } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -10,7 +9,8 @@ import AuthApi from './AuthApi.jsx';
 import App from './App.jsx';
 import resources from './locales/index.js';
 import getApi from './Api.jsx';
-import { actions } from './store/chatSlice.js';
+import { channelsActions } from './store/slices/channelsSlice.js';
+import { msgActions } from './store/slices/messagesSlice.js';
 
 const init = async (socket) => {
   const ApiProvider = getApi(socket);
@@ -27,10 +27,10 @@ const init = async (socket) => {
     toastId: 'connection', autoClose: false, theme: 'colored', icon: <Spinner animation="border" size="sm" />,
   }));
   socket.on('connect', () => toast.dismiss('connection'));
-  socket.on('newMessage', (messageWithId) => store.dispatch(actions.addMessage({ message: messageWithId })));
-  socket.on('newChannel', (channelWithId) => store.dispatch(actions.addChannel({ channel: channelWithId })));
-  socket.on('removeChannel', (data) => store.dispatch(actions.removeChannel(data)));
-  socket.on('renameChannel', (channel) => store.dispatch(actions.renameChannel(channel)));
+  socket.on('newMessage', (messageWithId) => store.dispatch(msgActions.addMessage(messageWithId)));
+  socket.on('newChannel', (channelWithId) => store.dispatch(channelsActions.addChannel(channelWithId)));
+  socket.on('removeChannel', ({ id }) => store.dispatch(channelsActions.removeChannel(id)));
+  socket.on('renameChannel', (channel) => store.dispatch(channelsActions.renameChannel(channel)));
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18nInstance}>

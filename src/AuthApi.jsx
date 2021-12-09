@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { AuthContext } from './context.jsx';
-import { actions } from './store/chatSlice.js';
+import { channelsActions } from './store/slices/channelsSlice.js';
 import routes from './routes.js';
 
 const noAuth = { username: null, token: null };
@@ -60,7 +60,7 @@ const AuthApi = ({ children }) => {
   const loadData = async () => {
     try {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
-      dispatch(actions.initChannels(data));
+      dispatch(channelsActions.initChannels(data));
     } catch (err) {
       throw identifyError(err);
     }

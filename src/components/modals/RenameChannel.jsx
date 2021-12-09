@@ -4,7 +4,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useSelector } from 'react-redux';
-import { getChannelsNames } from '../../store/selectors.js';
+import { getChannelsNames } from '../../store/slices/channelsSlice.js';
 
 const RenameChannel = (props) => {
   const {

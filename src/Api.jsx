@@ -1,7 +1,7 @@
 import React from 'react';
 import store from './store/index.js';
 import { ApiContext } from './context.jsx';
-import { actions } from './store/chatSlice.js';
+import { channelsActions } from './store/slices/channelsSlice.js';
 
 const getApi = (socket) => {
   const error = 'errors.network';
@@ -23,7 +23,7 @@ const getApi = (socket) => {
         newMessage: promisifySocket((...payload) => socket.volatile.emit('newMessage', ...payload)),
         newChannel: promisifySocket((...payload) => {
           socket.volatile.emit('newChannel', ...payload);
-          socket.once('newChannel', ({ id }) => store.dispatch(actions.setCurrentChannel({ id })));
+          socket.once('newChannel', ({ id }) => store.dispatch(channelsActions.setCurrentChannel(id)));
         }),
         removeChannel: promisifySocket((...payload) => socket.volatile.emit('removeChannel', ...payload)),
         renameChannel: promisifySocket((...payload) => socket.volatile.emit('renameChannel', ...payload)),

@@ -5,7 +5,7 @@ import {
 import { Col } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { getModalState } from './store/selectors.js';
+import { getModalState } from './store/slices/modalSlice.js';
 import {
   Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute, MyModal,
 } from './components';

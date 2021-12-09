@@ -2,11 +2,10 @@ import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
-import { getModalState } from '../store/selectors.js';
 import AddChannel from './modals/AddChannel.jsx';
 import RemoveChannel from './modals/RemoveChannel.jsx';
 import RenameChannel from './modals/RenameChannel.jsx';
-import { actions } from '../store/chatSlice.js';
+import { getModalState, actions } from '../store/slices/modalSlice.js';
 import { ApiContext } from '../context.jsx';
 
 const modals = {

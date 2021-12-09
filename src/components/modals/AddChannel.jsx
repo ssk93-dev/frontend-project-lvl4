@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
-import { getChannelsNames } from '../../store/selectors.js';
+import { getChannelsNames } from '../../store/slices/channelsSlice.js';
 
 const AddChannel = (props) => {
   const {

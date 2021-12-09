@@ -6,7 +6,8 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PlusSquare, PersonFill } from 'react-bootstrap-icons';
-import { actions } from '../store/chatSlice.js';
+import { actions } from '../store/slices/modalSlice';
+import { channelsActions, getCurrentChannelId, channelsSelectors } from '../store/slices/channelsSlice.js';
 import { AuthContext } from '../context.jsx';
 
 const ChannelsHeader = () => {
@@ -32,10 +33,11 @@ const ChannelsHeader = () => {
 };
 
 const ChannelsList = () => {
-  const { channels, currentChannelId } = useSelector((state) => state);
+  const channels = useSelector(channelsSelectors.selectAll);
+  const currentChannelId = useSelector(getCurrentChannelId);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const handleSetChannel = (id) => () => dispatch(actions.setCurrentChannel({ id }));
+  const handleSetChannel = (id) => () => dispatch(channelsActions.setCurrentChannel({ id }));
   const showModal = (type, item) => () => dispatch(actions.showModal({ type, item }));
   return (
     <div className="d-flex flex-column h-100">

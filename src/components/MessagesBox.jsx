@@ -9,10 +9,12 @@ import { useFormik } from 'formik';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
+import { getCurrentChannelId, channelsSelectors } from '../store/slices/channelsSlice.js';
+import { messagesSelectors } from '../store/slices/messagesSlice.js';
 import { ApiContext, AuthContext } from '../context.jsx';
 
 const MessageForm = () => {
-  const { currentChannelId } = useSelector((state) => state);
+  const currentChannelId = useSelector(getCurrentChannelId);
   const { newMessage } = useContext(ApiContext);
   const { userId } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -65,7 +67,9 @@ const MessageForm = () => {
 };
 
 const MessagesBox = () => {
-  const { channels, currentChannelId, messages } = useSelector((state) => state);
+  const messages = useSelector(messagesSelectors.selectAll);
+  const channels = useSelector(channelsSelectors.selectAll);
+  const currentChannelId = useSelector(getCurrentChannelId);
   const currentChannel = _.find(channels, { id: currentChannelId });
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
   const { t } = useTranslation();
