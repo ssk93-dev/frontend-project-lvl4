@@ -1,6 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import '@testing-library/jest-dom';
+import _ from 'lodash';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import {
@@ -54,7 +55,7 @@ beforeEach(async () => {
   socket = new MockedSocket();
 
   socket.on('newMessage', (message, ack) => {
-    socket.emit('newMessage', { ...message, id: 1 });
+    socket.emit('newMessage', { ...message, id: _.uniqueId() });
     ack({ status: 'ok' });
   });
   socket.on('newChannel', (channel, ack) => {
