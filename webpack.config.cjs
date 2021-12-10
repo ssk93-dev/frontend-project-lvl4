@@ -14,6 +14,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
+    clean: true,
   },
   devServer: {
     compress: true,

@@ -166,7 +166,7 @@ const SignupPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{t('signup.footer')}</span>
+                <span>{`${t('signup.footer')} `}</span>
                 <Link to="/login">{t('signup.link')}</Link>
               </div>
             </Card.Footer>

@@ -42,7 +42,7 @@ const ChannelsHeader = () => {
   );
 };
 
-export const ChannelsList = () => {
+const ChannelsList = () => {
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector(getCurrentChannelId);
   const dispatch = useDispatch();
