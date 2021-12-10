@@ -5,3 +5,28 @@
 [![tests and lint](https://github.com/ssk93-dev/frontend-project-lvl4/actions/workflows/testAndLint.yml/badge.svg)](https://github.com/ssk93-dev/frontend-project-lvl4/actions/workflows/testAndLint.yml)
 ### Heroku link:
 [Hexlet Chat](https://thawing-peak-90452.herokuapp.com/)
+
+### Description
+Chat application with autorization, registration, channels. Based on React with ReduxToolkit.
+
+### Installation
+```sh
+$ git clone
+$ make install
+```
+You can start dev server by typing followin command:
+```sh
+$ make start
+```
+To run tests you can type:
+```sh
+$ make test
+```
+or
+```sh
+$ make test-coverage
+```
+And deploy app to Heroku ([heroku cli](https://devcenter.heroku.com/articles/heroku-cli)) by typing:
+```sh
+$ make deploy
+```
