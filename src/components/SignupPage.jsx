@@ -19,6 +19,22 @@ import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context.jsx';
 import pic from '../images/SignIn-image.jpg';
 
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required('errors.username.required')
+    .min(3, 'errors.username.short')
+    .max(20, 'errors.username.long'),
+  password: yup
+    .string()
+    .required('errors.password.required')
+    .min(6, 'errors.password.short'),
+  passwordRepetition: yup
+    .string()
+    .required('errors.password.confirmRequired')
+    .oneOf([yup.ref('password'), null], 'errors.password.mustMatch'),
+});
+
 const SignupForm = () => {
   const { signUp } = useContext(AuthContext);
   const [isAuthFailed, setAuthFailed] = useState(false);
@@ -35,21 +51,7 @@ const SignupForm = () => {
       password: '',
       passwordRepetition: '',
     },
-    validationSchema: yup.object().shape({
-      username: yup
-        .string()
-        .required('errors.username.required')
-        .min(3, 'errors.username.short')
-        .max(20, 'errors.username.long'),
-      password: yup
-        .string()
-        .required('errors.password.required')
-        .min(6, 'errors.password.short'),
-      passwordRepetition: yup
-        .string()
-        .required('errors.password.confirmRequired')
-        .oneOf([yup.ref('password'), null], 'errors.password.mustMatch'),
-    }),
+    validationSchema,
     onSubmit: async (values) => {
       const toastId = toast.loading(t('loading'), { toastId: 'signup' });
       try {
