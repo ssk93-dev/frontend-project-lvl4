@@ -24,9 +24,11 @@ const SignupForm = () => {
   const [isAuthFailed, setAuthFailed] = useState(false);
   const { t } = useTranslation();
   const inputRef = useRef();
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -70,6 +72,7 @@ const SignupForm = () => {
       }
     },
   });
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group className="mb-3">
@@ -138,6 +141,7 @@ const SignupForm = () => {
 
 const SignupPage = () => {
   const { t } = useTranslation();
+
   return (
     <Container className="container-fluid h-100">
       <Row className="justify-content-center align-content-center h-100">

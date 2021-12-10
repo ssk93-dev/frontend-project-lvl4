@@ -14,9 +14,11 @@ const AddChannel = (props) => {
   const channelsNames = useSelector(getChannelsNames);
   const { newChannel } = useContext(ApiContext);
   const inputRef = useRef();
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     const toastId = toast.loading(t('loading'));
     try {

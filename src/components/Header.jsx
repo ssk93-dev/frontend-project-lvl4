@@ -10,10 +10,12 @@ import { AuthContext } from '../context.jsx';
 const Header = () => {
   const { signOut, userId } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
+
   const handleChangeLanguage = (lng) => () => {
     localStorage.setItem('lng', JSON.stringify(lng));
     i18n.changeLanguage(lng);
   };
+
   return (
     <Navbar className="shadow-sm" bg="white">
       <Container>

@@ -18,7 +18,9 @@ const ChannelsHeader = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { userId } = useContext(AuthContext);
+
   const showModal = (type, item) => () => dispatch(modalActions.showModal({ type, item }));
+
   return (
     <>
       <div className="d-flex justify-content-start mb-2 ps-3 pe-2">
@@ -40,7 +42,7 @@ const ChannelsHeader = () => {
   );
 };
 
-const ChannelsList = () => {
+export const ChannelsList = () => {
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector(getCurrentChannelId);
   const dispatch = useDispatch();

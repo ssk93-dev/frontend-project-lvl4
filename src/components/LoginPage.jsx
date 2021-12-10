@@ -23,9 +23,11 @@ const LoginForm = () => {
   const [isAuthFailed, setAuthFailed] = useState(false);
   const { t } = useTranslation();
   const inputRef = useRef();
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -48,6 +50,7 @@ const LoginForm = () => {
       }
     },
   });
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group className="mb-3">

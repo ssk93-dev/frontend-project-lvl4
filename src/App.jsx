@@ -6,9 +6,14 @@ import { Col } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { getModalState } from './store/slices/modalSlice.js';
-import {
-  Header, LoginPage, ChatPage, SignupPage, NotFound, PrivateRoute, PublicRoute, MyModal,
-} from './components';
+import Header from './components/Header.jsx';
+import PrivateRoute from './components/PrivateRoute.jsx';
+import PublicRoute from './components/PublicRoute.jsx';
+import ChatPage from './components/ChatPage.jsx';
+import LoginPage from './components/LoginPage.jsx';
+import SignupPage from './components/SignupPage.jsx';
+import NotFound from './components/NotFound.jsx';
+import MyModal from './components/MyModal.jsx';
 
 const App = () => {
   const modalInfo = useSelector(getModalState);

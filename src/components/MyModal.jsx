@@ -18,6 +18,7 @@ const MyModal = () => {
   const dispatch = useDispatch();
   const { show, type, item } = useSelector(getModalState);
   const Component = getModal(type);
+
   const hideModal = () => dispatch(modalActions.hideModal());
   if (!show) {
     return null;

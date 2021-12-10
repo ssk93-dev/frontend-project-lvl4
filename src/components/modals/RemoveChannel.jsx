@@ -9,6 +9,7 @@ const RemoveChannel = (props) => {
   const { t } = useTranslation();
   const [isSubmitting, setSubmitting] = useState(false);
   const { removeChannel } = useContext(ApiContext);
+
   const handleRemoveChannel = async () => {
     const toastId = toast.loading(t('loading'));
     try {

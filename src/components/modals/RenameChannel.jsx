@@ -14,10 +14,12 @@ const RenameChannel = (props) => {
   const channelsNames = useSelector(getChannelsNames);
   const { renameChannel } = useContext(ApiContext);
   const inputRef = useRef();
+
   useEffect(() => {
     inputRef.current.focus();
     inputRef.current.select();
   }, []);
+
   const handleSubmit = () => async (values, { setSubmitting }) => {
     const toastId = toast.loading(t('loading'));
     try {
