@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useEffect, useContext,
+  useRef, useEffect, useContext,
 } from 'react';
 import {
   Button,
@@ -37,7 +37,6 @@ const validationSchema = yup.object().shape({
 
 const SignupForm = () => {
   const { signUp } = useContext(AuthContext);
-  const [isAuthFailed, setAuthFailed] = useState(false);
   const { t } = useTranslation();
   const inputRef = useRef();
 
@@ -50,12 +49,13 @@ const SignupForm = () => {
       username: '',
       password: '',
       passwordRepetition: '',
+      authorization: '',
     },
     validationSchema,
     onSubmit: async (values) => {
       const toastId = toast.loading(t('loading'), { toastId: 'signup' });
       try {
-        setAuthFailed(false);
+        formik.setErrors({ authorization: '' });
         await signUp(values);
         toast.update(toastId, {
           render: t('signup.success'),
@@ -64,7 +64,7 @@ const SignupForm = () => {
           autoClose: 3000,
         });
       } catch (err) {
-        setAuthFailed(true);
+        formik.setErrors({ authorization: err });
         toast.update(toastId, {
           render: t(err),
           type: 'error',
@@ -87,10 +87,10 @@ const SignupForm = () => {
             placeholder="username"
             onChange={formik.handleChange}
             value={formik.values.username}
-            isInvalid={formik.errors.username || isAuthFailed}
+            isInvalid={formik.errors.username || formik.errors.authorization}
           />
           <Form.Control.Feedback tooltip type="invalid">
-            {t(formik.errors.username)}
+            {t(formik.errors.username) || t(formik.errors.authorization)}
           </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>

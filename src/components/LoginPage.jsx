@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useEffect, useContext,
+  useRef, useEffect, useContext,
 } from 'react';
 import {
   Button,
@@ -20,7 +20,6 @@ import pic from '../images/SignIn-image.jpg';
 
 const LoginForm = () => {
   const { logIn } = useContext(AuthContext);
-  const [isAuthFailed, setAuthFailed] = useState(false);
   const { t } = useTranslation();
   const inputRef = useRef();
 
@@ -32,15 +31,16 @@ const LoginForm = () => {
     initialValues: {
       username: '',
       password: '',
+      authorization: '',
     },
     onSubmit: async (values) => {
       const toastId = toast.loading(t('loading'), { toastId: 'loading' });
       try {
-        setAuthFailed(false);
+        formik.setErrors({ authorization: false });
         await logIn(values);
         toast.dismiss(toastId);
       } catch (err) {
-        setAuthFailed(true);
+        formik.setErrors({ authorization: true });
         toast.update(toastId, {
           render: t(err),
           type: 'error',
@@ -62,7 +62,7 @@ const LoginForm = () => {
             placeholder="username"
             onChange={formik.handleChange}
             value={formik.values.username}
-            isInvalid={isAuthFailed}
+            isInvalid={formik.errors.authorization}
           />
         </FloatingLabel>
       </Form.Group>
@@ -74,7 +74,7 @@ const LoginForm = () => {
             placeholder="password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            isInvalid={isAuthFailed}
+            isInvalid={formik.errors.authorization}
           />
         </FloatingLabel>
       </Form.Group>
