@@ -6,10 +6,11 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import ChannelsList from './ChannelsList.jsx';
 import MessagesBox from './MessagesBox.jsx';
-import { AuthContext } from '../context.jsx';
+import { AuthContext, ApiContext } from '../context.jsx';
 
 const ChatPage = () => {
   const { loadUserData } = useContext(AuthContext);
+  const { startEventListeners, stopEventListeners } = useContext(ApiContext);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -19,7 +20,11 @@ const ChatPage = () => {
       .catch((err) => toast.update(toastId, {
         render: t(err), type: 'error', isLoading: false, autoClose: 3000,
       }));
-  }, [loadUserData, t]);
+    startEventListeners();
+    return () => {
+      stopEventListeners();
+    };
+  }, [loadUserData, t, startEventListeners, stopEventListeners]);
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">

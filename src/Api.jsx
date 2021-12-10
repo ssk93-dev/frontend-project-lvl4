@@ -2,9 +2,11 @@ import React from 'react';
 import store from './store/index.js';
 import { ApiContext } from './context.jsx';
 import { channelsActions } from './store/slices/channelsSlice.js';
+import { msgActions } from './store/slices/messagesSlice.js';
 
 const getApi = (socket) => {
   const error = 'errors.network';
+
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       reject(error);
@@ -17,6 +19,10 @@ const getApi = (socket) => {
       reject(error);
     });
   });
+
+  const startConnectListener = (cb) => socket.on('connect', cb);
+  const startDisconnectListener = (cb) => socket.on('disconnect', cb);
+
   const ApiProvider = ({ children }) => (
     <ApiContext.Provider
       value={{
@@ -27,12 +33,24 @@ const getApi = (socket) => {
         }),
         removeChannel: promisifySocket((...payload) => socket.volatile.emit('removeChannel', ...payload)),
         renameChannel: promisifySocket((...payload) => socket.volatile.emit('renameChannel', ...payload)),
+        startEventListeners: () => {
+          socket.on('newMessage', (messageWithId) => store.dispatch(msgActions.addMessage(messageWithId)));
+          socket.on('newChannel', (channelWithId) => store.dispatch(channelsActions.addChannel(channelWithId)));
+          socket.on('removeChannel', ({ id }) => store.dispatch(channelsActions.removeChannel(id)));
+          socket.on('renameChannel', (channel) => store.dispatch(channelsActions.renameChannel(channel)));
+        },
+        stopEventListeners: () => {
+          socket.removeAllListeners('newMessage');
+          socket.removeAllListeners('newChannel');
+          socket.removeAllListeners('removeChannel');
+          socket.removeAllListeners('renameChannel');
+        },
       }}
     >
       {children}
     </ApiContext.Provider>
   );
-  return ApiProvider;
+  return { ApiProvider, startConnectListener, startDisconnectListener };
 };
 
 export default getApi;
