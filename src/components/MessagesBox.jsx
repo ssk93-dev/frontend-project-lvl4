@@ -19,6 +19,9 @@ const MessageForm = () => {
   const { userId } = useContext(AuthContext);
   const { t } = useTranslation();
   const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  });
   const formik = useFormik({
     initialValues: {
       text: '',
@@ -37,9 +40,7 @@ const MessageForm = () => {
       }
     },
   });
-  useEffect(() => {
-    inputRef.current.focus();
-  });
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       <InputGroup>

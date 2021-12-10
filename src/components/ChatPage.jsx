@@ -9,16 +9,16 @@ import MessagesBox from './MessagesBox.jsx';
 import { AuthContext } from '../context.jsx';
 
 const ChatPage = () => {
-  const { loadData } = useContext(AuthContext);
+  const { loadUserData } = useContext(AuthContext);
   const { t } = useTranslation();
   useEffect(() => {
     const toastId = toast.loading(t('loading'), { toastId: 'loading' });
-    loadData()
+    loadUserData()
       .then(() => toast.dismiss(toastId))
       .catch((err) => toast.update(toastId, {
         render: t(err), type: 'error', isLoading: false, autoClose: 3000,
       }));
-  }, [loadData, t]);
+  }, [loadUserData, t]);
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">

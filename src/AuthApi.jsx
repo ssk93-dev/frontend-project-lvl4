@@ -57,7 +57,7 @@ const AuthApi = ({ children }) => {
     localStorage.setItem('userId', JSON.stringify(noAuth));
     setUserId(noAuth);
   };
-  const loadData = async () => {
+  const loadUserData = async () => {
     try {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       dispatch(channelsActions.initChannels(data));
@@ -67,7 +67,7 @@ const AuthApi = ({ children }) => {
   };
   return (
     <AuthContext.Provider value={{
-      logIn, signUp, signOut, loadData, userId,
+      logIn, signUp, signOut, loadUserData, userId,
     }}
     >
       {children}

@@ -19,6 +19,6 @@ const chatSlice = createSlice({
 
 const selectSelf = (state) => state.modal;
 
-export const actions = { ...chatSlice.actions };
+export const modalActions = { ...chatSlice.actions };
 export const getModalState = createSelector(selectSelf, (state) => state.modalInfo);
 export default chatSlice.reducer;

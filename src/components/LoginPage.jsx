@@ -2,7 +2,14 @@ import React, {
   useState, useRef, useEffect, useContext,
 } from 'react';
 import {
-  Button, Form, Container, Row, Col, Card, FloatingLabel, Image,
+  Button,
+  Form,
+  Container,
+  Row,
+  Col,
+  Card,
+  FloatingLabel,
+  Image,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -33,7 +40,10 @@ const LoginForm = () => {
       } catch (err) {
         setAuthFailed(true);
         toast.update(toastId, {
-          render: t(err), type: 'error', isLoading: false, autoClose: 3000,
+          render: t(err),
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
         });
       }
     },
@@ -42,15 +52,35 @@ const LoginForm = () => {
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group className="mb-3">
         <FloatingLabel controlId="username" label={t('login.username')}>
-          <Form.Control ref={inputRef} type="text" required placeholder="username" onChange={formik.handleChange} value={formik.values.username} isInvalid={isAuthFailed} />
+          <Form.Control
+            ref={inputRef}
+            type="text"
+            required
+            placeholder="username"
+            onChange={formik.handleChange}
+            value={formik.values.username}
+            isInvalid={isAuthFailed}
+          />
         </FloatingLabel>
       </Form.Group>
       <Form.Group className="mb-3">
         <FloatingLabel controlId="password" label={t('login.password')}>
-          <Form.Control type="password" required placeholder="password" onChange={formik.handleChange} value={formik.values.password} isInvalid={isAuthFailed} />
+          <Form.Control
+            type="password"
+            required
+            placeholder="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            isInvalid={isAuthFailed}
+          />
         </FloatingLabel>
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100 mb-3" disabled={formik.isSubmitting}>
+      <Button
+        type="submit"
+        variant="outline-primary"
+        className="w-100 mb-3"
+        disabled={formik.isSubmitting}
+      >
         {t('login.signin')}
       </Button>
     </Form>
@@ -65,8 +95,16 @@ const LoginPage = () => {
         <Col md={8} xxl={6}>
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
-              <Col md={6} className="d-flex align-items-center justify-content-center">
-                <Image src={pic} roundedCircle fluid alt={t('login.logoPlaceholder')} />
+              <Col
+                md={6}
+                className="d-flex align-items-center justify-content-center"
+              >
+                <Image
+                  src={pic}
+                  roundedCircle
+                  fluid
+                  alt={t('login.logoPlaceholder')}
+                />
               </Col>
               <Col md={6} className="mt-3 mt-mb-0">
                 <h1 className="text-center mb-4">{t('login.header')}</h1>

@@ -1,16 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { getChannelsNames } from '../../store/slices/channelsSlice.js';
+import { ApiContext } from '../../context.jsx';
 
 const RenameChannel = (props) => {
-  const {
-    item, t, hideModal, renameChannel,
-  } = props;
+  const { item, hideModal } = props;
+  const { t } = useTranslation();
   const channelsNames = useSelector(getChannelsNames);
+  const { renameChannel } = useContext(ApiContext);
+  const inputRef = useRef();
+  useEffect(() => {
+    inputRef.current.focus();
+    inputRef.current.select();
+  }, []);
   const handleSubmit = () => async (values, { setSubmitting }) => {
     const toastId = toast.loading(t('loading'));
     try {
@@ -37,14 +44,12 @@ const RenameChannel = (props) => {
         .notOneOf(channelsNames, 'modal.unique'),
     }),
   });
-  const inputRef = useRef();
-  useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.select();
-  }, []);
 
   return (
     <>
+      <Modal.Header closeButton onHide={hideModal}>
+        <Modal.Title>{t('modal.rename')}</Modal.Title>
+      </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit} id="renameChannel">
           <Form.Group>

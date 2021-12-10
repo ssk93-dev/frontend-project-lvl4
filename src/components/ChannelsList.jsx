@@ -6,15 +6,19 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PlusSquare, PersonFill } from 'react-bootstrap-icons';
-import { actions } from '../store/slices/modalSlice';
-import { channelsActions, getCurrentChannelId, channelsSelectors } from '../store/slices/channelsSlice.js';
+import { modalActions } from '../store/slices/modalSlice';
+import {
+  channelsActions,
+  getCurrentChannelId,
+  channelsSelectors,
+} from '../store/slices/channelsSlice.js';
 import { AuthContext } from '../context.jsx';
 
 const ChannelsHeader = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { userId } = useContext(AuthContext);
-  const showModal = (type, item) => () => dispatch(actions.showModal({ type, item }));
+  const showModal = (type, item) => () => dispatch(modalActions.showModal({ type, item }));
   return (
     <>
       <div className="d-flex justify-content-start mb-2 ps-3 pe-2">
@@ -23,7 +27,11 @@ const ChannelsHeader = () => {
       </div>
       <div className="d-flex justify-content-between mb-2 ps-3 pe-2">
         <span>{t('chat.channels')}</span>
-        <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={showModal('add', null)}>
+        <button
+          type="button"
+          className="p-0 text-primary btn btn-group-vertical"
+          onClick={showModal('add', null)}
+        >
           <PlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </button>
@@ -38,11 +46,16 @@ const ChannelsList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const handleSetChannel = (id) => () => dispatch(channelsActions.setCurrentChannel({ id }));
-  const showModal = (type, item) => () => dispatch(actions.showModal({ type, item }));
+  const showModal = (type, item) => () => dispatch(modalActions.showModal({ type, item }));
   return (
     <div className="d-flex flex-column h-100">
       <ChannelsHeader />
-      <Nav as="ul" variant="pills" className="d-flex flex-nowrap flex-column h-100 px-2" style={{ overflowX: 'hidden', overflowY: 'auto' }}>
+      <Nav
+        as="ul"
+        variant="pills"
+        className="d-flex flex-nowrap flex-column h-100 px-2"
+        style={{ overflowX: 'hidden', overflowY: 'auto' }}
+      >
         {channels.map((channel) => {
           const buttonStyle = channel.id === currentChannelId ? 'btn btn-secondary' : 'btn';
           return (
@@ -64,10 +77,24 @@ const ChannelsList = () => {
                 </Button>
                 {channel.removable ? (
                   <>
-                    <Dropdown.Toggle split variant={buttonStyle}><span className="visually-hidden">Управление каналом</span></Dropdown.Toggle>
+                    <Dropdown.Toggle split variant={buttonStyle}>
+                      <span className="visually-hidden">
+                        Управление каналом
+                      </span>
+                    </Dropdown.Toggle>
                     <Dropdown.Menu align="end">
-                      <Dropdown.Item aria-label="Переименовать" onClick={showModal('rename', channel)}>{t('modal.rename')}</Dropdown.Item>
-                      <Dropdown.Item aria-label="Удалить" onClick={showModal('remove', channel)}>{t('modal.remove')}</Dropdown.Item>
+                      <Dropdown.Item
+                        aria-label="Переименовать"
+                        onClick={showModal('rename', channel)}
+                      >
+                        {t('modal.rename')}
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        aria-label="Удалить"
+                        onClick={showModal('remove', channel)}
+                      >
+                        {t('modal.remove')}
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </>
                 ) : null}
