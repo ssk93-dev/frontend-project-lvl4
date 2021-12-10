@@ -16,15 +16,15 @@ const getModal = (type) => modals[type];
 
 const MyModal = () => {
   const dispatch = useDispatch();
-  const { show, type, item } = useSelector(getModalState);
+  const { showed, type, item } = useSelector(getModalState);
   const Component = getModal(type);
 
   const hideModal = () => dispatch(modalActions.hideModal());
-  if (!show) {
+  if (!showed) {
     return null;
   }
   return (
-    <Modal show={show} onHide={hideModal} centered>
+    <Modal show={showed} onHide={hideModal} centered>
       <Component
         item={item}
         hideModal={hideModal}

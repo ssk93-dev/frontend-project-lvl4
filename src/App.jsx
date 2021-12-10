@@ -22,7 +22,7 @@ const App = () => {
   return (
     <>
       <AuthApi>
-        <Col className="d-flex flex-column h-100 bg-light" aria-hidden={modalInfo.show}>
+        <Col className="d-flex flex-column h-100 bg-light" aria-hidden={modalInfo.showed}>
           <Router>
             <Header />
             <Switch>

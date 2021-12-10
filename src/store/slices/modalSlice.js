@@ -4,15 +4,15 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 const chatSlice = createSlice({
   name: 'modal',
   initialState: {
-    modalInfo: { show: false, type: null, item: null },
+    modalInfo: { showed: false, type: null, item: null },
   },
   reducers: {
     showModal(state, { payload }) {
       const { type, item } = payload;
-      state.modalInfo = { show: true, type, item };
+      state.modalInfo = { showed: true, type, item };
     },
     hideModal(state) {
-      state.modalInfo = { show: false, type: null, item: null };
+      state.modalInfo = { showed: false, type: null, item: null };
     },
   },
 });
