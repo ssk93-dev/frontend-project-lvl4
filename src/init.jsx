@@ -13,6 +13,7 @@ import getApi from './Api.jsx';
 const rollbarConfig = {
   accessToken: 'eb8cd7f6400946319cb3441f0e28dd68',
   environment: 'production',
+  enabled: process.env.NODE_ENV === 'production',
 };
 
 const init = async (socket) => {
