@@ -17,7 +17,7 @@ const getAuthHeader = () => {
   }
   return {};
 };
-const identifyError = (error) => {
+const getErrorMessage = (error) => {
   if (error.isAxiosError && !error.response) {
     return 'errors.network';
   }
@@ -41,7 +41,7 @@ const AuthApi = ({ children }) => {
       localStorage.setItem('userId', JSON.stringify(data));
       setUserId(data);
     } catch (err) {
-      throw identifyError(err);
+      throw getErrorMessage(err);
     }
   };
   const signUp = async ({ username, password }) => {
@@ -50,7 +50,7 @@ const AuthApi = ({ children }) => {
       localStorage.setItem('userId', JSON.stringify(data));
       setUserId(data);
     } catch (err) {
-      throw identifyError(err);
+      throw getErrorMessage(err);
     }
   };
   const signOut = () => {
@@ -62,7 +62,7 @@ const AuthApi = ({ children }) => {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       dispatch(channelsActions.initChannels(data));
     } catch (err) {
-      throw identifyError(err);
+      throw getErrorMessage(err);
     }
   };
   return (

@@ -14,7 +14,7 @@ const modals = {
 
 const getModal = (type) => modals[type];
 
-const MyModal = () => {
+const ChannelModal = () => {
   const dispatch = useDispatch();
   const { showed, type, item } = useSelector(getModalState);
   const Component = getModal(type);
@@ -33,4 +33,4 @@ const MyModal = () => {
   );
 };
 
-export default MyModal;
+export default ChannelModal;

@@ -8,6 +8,8 @@ const initialState = {
   currentChannelId: null,
 };
 
+const DEFAULT_CHANNEL = 1;
+
 const slice = createSlice({
   name: 'channels',
   initialState,
@@ -24,7 +26,7 @@ const slice = createSlice({
     addChannel: channelsAdapter.addOne,
     removeChannel(state, { payload }) {
       if (state.currentChannelId === payload) {
-        state.currentChannelId = 1;
+        state.currentChannelId = DEFAULT_CHANNEL;
       }
       channelsAdapter.removeOne(state, payload);
     },
@@ -35,11 +37,12 @@ const slice = createSlice({
   },
 });
 
-const selectSelf = (state) => state.channels;
-
 export const channelsActions = { ...slice.actions };
 export const channelsSelectors = channelsAdapter.getSelectors((state) => state.channels);
-export const getCurrentChannelId = createSelector(selectSelf, (state) => state.currentChannelId);
+export const getCurrentChannelId = createSelector(
+  (state) => state.channels,
+  (state) => state.currentChannelId,
+);
 export const getChannelsNames = createSelector(
   channelsSelectors.selectAll,
   (channels) => channels.map((channel) => channel.name),

@@ -5,18 +5,18 @@ import { channelsActions } from './store/slices/channelsSlice.js';
 import { msgActions } from './store/slices/messagesSlice.js';
 
 const getApi = (socket) => {
-  const error = 'errors.network';
+  const errorMessage = 'errors.network';
 
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      reject(error);
+      reject(errorMessage);
     }, 3000);
     socketFunction(...payload, ({ status }) => {
       clearTimeout(timer);
       if (status === 'ok') {
         resolve();
       }
-      reject(error);
+      reject(errorMessage);
     });
   });
 

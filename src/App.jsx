@@ -14,7 +14,7 @@ import ChatPage from './components/ChatPage.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import SignupPage from './components/SignupPage.jsx';
 import NotFound from './components/NotFound.jsx';
-import MyModal from './components/MyModal.jsx';
+import ChannelModal from './components/ChannelModal.jsx';
 
 const App = () => {
   const modalInfo = useSelector(getModalState);
@@ -46,7 +46,7 @@ const App = () => {
           </Switch>
         </Router>
       </Col>
-      <MyModal />
+      <ChannelModal />
       <ToastContainer
         position="top-center"
         autoClose={3000}
