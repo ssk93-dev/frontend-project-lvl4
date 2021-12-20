@@ -5,13 +5,14 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { getChannelsNames } from '../../store/slices/channelsSlice.js';
+import { getChannelsNames, channelsSelectors } from '../../store/slices/channelsSlice.js';
 import { ApiContext } from '../../context.jsx';
 
 const RenameChannel = (props) => {
-  const { item, hideModal } = props;
+  const { itemId, hideModal } = props;
   const { t } = useTranslation();
   const channelsNames = useSelector(getChannelsNames);
+  const selectedChannel = useSelector((state) => channelsSelectors.selectById(state, itemId));
   const { renameChannel } = useContext(ApiContext);
   const inputRef = useRef();
 
@@ -23,7 +24,7 @@ const RenameChannel = (props) => {
   const handleSubmit = () => async (values, { setSubmitting }) => {
     const toastId = toast.loading(t('loading'));
     try {
-      await renameChannel({ id: item.id, name: values.name.trim() });
+      await renameChannel({ id: itemId, name: values.name.trim() });
       toast.update(toastId, {
         render: t('modal.renamed'), type: 'success', isLoading: false, autoClose: 3000,
       });
@@ -38,7 +39,7 @@ const RenameChannel = (props) => {
 
   const formik = useFormik({
     onSubmit: handleSubmit(),
-    initialValues: { name: item.name },
+    initialValues: { name: selectedChannel.name },
     validationSchema: yup.object().shape({
       name: yup.string().trim()
         .required('modal.required')

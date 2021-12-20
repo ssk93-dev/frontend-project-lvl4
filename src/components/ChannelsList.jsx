@@ -48,7 +48,7 @@ const ChannelsList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const handleSetChannel = (id) => () => dispatch(channelsActions.setCurrentChannel({ id }));
-  const showModal = (type, item) => () => dispatch(modalActions.showModal({ type, item }));
+  const showModal = (type, itemId) => () => dispatch(modalActions.showModal({ type, itemId }));
   return (
     <div className="d-flex flex-column h-100">
       <ChannelsHeader />
@@ -87,13 +87,13 @@ const ChannelsList = () => {
                     <Dropdown.Menu align="end">
                       <Dropdown.Item
                         aria-label="Переименовать"
-                        onClick={showModal('rename', channel)}
+                        onClick={showModal('rename', channel.id)}
                       >
                         {t('modal.rename')}
                       </Dropdown.Item>
                       <Dropdown.Item
                         aria-label="Удалить"
-                        onClick={showModal('remove', channel)}
+                        onClick={showModal('remove', channel.id)}
                       >
                         {t('modal.remove')}
                       </Dropdown.Item>

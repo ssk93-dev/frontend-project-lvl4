@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { ApiContext } from '../../context.jsx';
 
 const RemoveChannel = (props) => {
-  const { item, hideModal } = props;
+  const { itemId, hideModal } = props;
   const { t } = useTranslation();
   const [isSubmitting, setSubmitting] = useState(false);
   const { removeChannel } = useContext(ApiContext);
@@ -14,7 +14,7 @@ const RemoveChannel = (props) => {
     const toastId = toast.loading(t('loading'));
     try {
       setSubmitting(true);
-      await removeChannel({ id: item.id });
+      await removeChannel({ id: itemId });
       toast.update(toastId, {
         render: t('modal.removed'),
         type: 'success',

@@ -16,7 +16,7 @@ const getModal = (type) => modals[type];
 
 const ChannelModal = () => {
   const dispatch = useDispatch();
-  const { showed, type, item } = useSelector(getModalState);
+  const { showed, type, itemId } = useSelector(getModalState);
   const Component = getModal(type);
 
   const hideModal = () => dispatch(modalActions.hideModal());
@@ -26,7 +26,7 @@ const ChannelModal = () => {
   return (
     <Modal show={showed} onHide={hideModal} centered>
       <Component
-        item={item}
+        itemId={itemId}
         hideModal={hideModal}
       />
     </Modal>
