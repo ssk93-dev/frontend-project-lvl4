@@ -221,7 +221,7 @@ describe('chat', () => {
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
 
     userEvent.click(await screen.findByRole('button', { name: /Управление каналом/i, hidden: true }));
-    userEvent.click(await screen.findByRole('button', { name: /Удалить/i, hidden: true }));
+    userEvent.click(await screen.findByRole('button', { name: /Удалить/i }));
     userEvent.click(await screen.findByRole('button', { name: /Удалить/i }));
 
     expect(await screen.findByText(/Канал удалён/i)).toBeInTheDocument();

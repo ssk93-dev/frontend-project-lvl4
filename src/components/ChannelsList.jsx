@@ -85,16 +85,10 @@ const ChannelsList = () => {
                       </span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu align="end">
-                      <Dropdown.Item
-                        aria-label={t('modal.rename')}
-                        onClick={showModal('rename', channel.id)}
-                      >
+                      <Dropdown.Item onClick={showModal('rename', channel.id)}>
                         {t('modal.rename')}
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        aria-label={t('modal.remove')}
-                        onClick={showModal('remove', channel.id)}
-                      >
+                      <Dropdown.Item onClick={showModal('remove', channel.id)}>
                         {t('modal.remove')}
                       </Dropdown.Item>
                     </Dropdown.Menu>
