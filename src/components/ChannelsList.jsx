@@ -81,18 +81,18 @@ const ChannelsList = () => {
                   <>
                     <Dropdown.Toggle split variant={buttonStyle}>
                       <span className="visually-hidden">
-                        Управление каналом
+                        {t('chat.channelsControl')}
                       </span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu align="end">
                       <Dropdown.Item
-                        aria-label="Переименовать"
+                        aria-label={t('modal.rename')}
                         onClick={showModal('rename', channel.id)}
                       >
                         {t('modal.rename')}
                       </Dropdown.Item>
                       <Dropdown.Item
-                        aria-label="Удалить"
+                        aria-label={t('modal.remove')}
                         onClick={showModal('remove', channel.id)}
                       >
                         {t('modal.remove')}

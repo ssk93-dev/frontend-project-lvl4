@@ -24,7 +24,8 @@ const ChatPage = () => {
     return () => {
       stopEventListeners();
     };
-  }, [loadUserData, t, startEventListeners, stopEventListeners]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t, startEventListeners, stopEventListeners]);
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">

@@ -48,6 +48,7 @@ export default {
     },
     chat: {
       channels: 'Каналы',
+      channelsControl: 'Управление каналом',
     },
     messages: {
       input: 'Введите сообщение...',

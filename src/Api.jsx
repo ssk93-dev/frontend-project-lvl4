@@ -29,7 +29,7 @@ const getApi = (socket) => {
         newMessage: promisifySocket((...payload) => socket.volatile.emit('newMessage', ...payload)),
         newChannel: promisifySocket((...payload) => {
           socket.volatile.emit('newChannel', ...payload);
-          socket.once('newChannel', ({ id }) => store.dispatch(channelsActions.setCurrentChannel(id)));
+          socket.once('newChannel', ({ id }) => store.dispatch(channelsActions.setCurrentChannel({ id })));
         }),
         removeChannel: promisifySocket((...payload) => socket.volatile.emit('removeChannel', ...payload)),
         renameChannel: promisifySocket((...payload) => socket.volatile.emit('renameChannel', ...payload)),
