@@ -206,8 +206,8 @@ describe('chat', () => {
     userEvent.type(await screen.findByLabelText(/Имя канала/i), 'test channel');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
 
-    userEvent.click(await screen.findByRole('button', { name: /Управление каналом/i, hidden: true }));
-    userEvent.click(await screen.findByRole('button', { name: /Переименовать/i, hidden: true }));
+    userEvent.click(await screen.findByRole('button', { name: /Управление каналом/i }));
+    userEvent.click(await screen.findByRole('button', { name: /Переименовать/i }));
     userEvent.type(await screen.findByLabelText(/Новое имя канала/i), 'new test channel');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
 
@@ -220,7 +220,7 @@ describe('chat', () => {
     userEvent.type(await screen.findByLabelText(/Имя канала/i), 'test channel');
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
 
-    userEvent.click(await screen.findByRole('button', { name: /Управление каналом/i, hidden: true }));
+    userEvent.click(await screen.findByRole('button', { name: /Управление каналом/i }));
     userEvent.click(await screen.findByRole('button', { name: /Удалить/i }));
     userEvent.click(await screen.findByRole('button', { name: /Удалить/i }));
 

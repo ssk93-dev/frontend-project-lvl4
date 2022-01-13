@@ -1,10 +1,9 @@
 import React from 'react';
-import store from './store/index.js';
 import { ApiContext } from './context.jsx';
 import { channelsActions } from './store/slices/channelsSlice.js';
 import { msgActions } from './store/slices/messagesSlice.js';
 
-const getApi = (socket) => {
+const getApi = (socket, store) => {
   const errorMessage = 'errors.network';
 
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
