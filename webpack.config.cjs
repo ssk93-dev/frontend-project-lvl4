@@ -1,6 +1,7 @@
 // @ts-check
 
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -25,6 +26,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
+    new Dotenv(),
   ],
   module: {
     rules: [
