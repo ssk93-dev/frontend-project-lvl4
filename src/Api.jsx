@@ -5,12 +5,20 @@ import { msgActions } from './store/slices/messagesSlice.js';
 
 const getApi = (socket, store) => {
   const errorMessage = 'errors.network';
+<<<<<<< HEAD
   // const REJECT_DELAY = 3000;
 
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
     // const timer = setTimeout(() => {
     //   reject(errorMessage);
     // }, REJECT_DELAY);
+=======
+
+  const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(errorMessage);
+    }, 3000);
+>>>>>>> parent of 19f9563... fix: reject delay
     socketFunction(...payload, ({ status }) => {
       // clearTimeout(timer);
       if (status === 'ok') {
