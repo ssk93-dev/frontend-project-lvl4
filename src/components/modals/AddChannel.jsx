@@ -19,7 +19,7 @@ const AddChannel = (props) => {
     inputRef.current.focus();
   }, []);
 
-  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+  const handleSubmit = async (values, { resetForm }) => {
     const toastId = toast.loading(t('loading'));
     try {
       await newChannel({ name: values.name.trim() });
@@ -29,7 +29,6 @@ const AddChannel = (props) => {
         isLoading: false,
         autoClose: 3000,
       });
-      setSubmitting(false);
       resetForm();
       hideModal();
     } catch (err) {

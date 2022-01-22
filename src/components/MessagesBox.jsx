@@ -28,17 +28,14 @@ const MessageForm = () => {
     initialValues: {
       text: '',
     },
-    onSubmit: async (values, { resetForm, setSubmitting }) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
-        setSubmitting(true);
         await newMessage({
           username: userId.username, channelId: currentChannelId, body: filter.clean(values.text),
         });
-        setSubmitting(false);
         resetForm();
       } catch (err) {
         toast.error(t(err), { autoClose: 3000 });
-        setSubmitting(false);
       }
     },
   });

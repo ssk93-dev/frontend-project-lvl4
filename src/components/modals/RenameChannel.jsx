@@ -21,14 +21,13 @@ const RenameChannel = (props) => {
     inputRef.current.select();
   }, []);
 
-  const handleSubmit = () => async (values, { setSubmitting }) => {
+  const handleSubmit = () => async (values) => {
     const toastId = toast.loading(t('loading'));
     try {
       await renameChannel({ id: itemId, name: values.name.trim() });
       toast.update(toastId, {
         render: t('modal.renamed'), type: 'success', isLoading: false, autoClose: 3000,
       });
-      setSubmitting(false);
       hideModal();
     } catch (err) {
       toast.update(toastId, {
