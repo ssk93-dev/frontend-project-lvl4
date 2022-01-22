@@ -12,7 +12,6 @@ const Header = () => {
   const { t, i18n } = useTranslation();
 
   const handleChangeLanguage = (lng) => () => {
-    localStorage.setItem('lng', JSON.stringify(lng));
     i18n.changeLanguage(lng);
   };
 

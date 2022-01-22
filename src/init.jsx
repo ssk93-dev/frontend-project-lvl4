@@ -1,6 +1,7 @@
 import React from 'react';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
 import { Provider } from 'react-redux';
@@ -16,16 +17,22 @@ const rollbarConfig = {
   enabled: process.env.NODE_ENV === 'production',
 };
 
+const langDetectionOptions = {
+  order: ['localStorage'],
+  lookupLocalStorage: 'i18nextLng',
+  caches: ['localStorage'],
+};
+
 const init = async (socket) => {
   const store = initStore();
   const { ApiProvider, startConnectListener, startDisconnectListener } = getApi(socket, store);
   const i18nInstance = i18next.createInstance();
-  const lng = JSON.parse(localStorage.getItem('lng'));
   await i18nInstance
     .use(initReactI18next)
+    .use(LanguageDetector)
     .init({
       resources,
-      lng,
+      detection: langDetectionOptions,
       fallbackLng: 'ru',
     });
   startDisconnectListener(() => toast.error(i18nInstance.t('errors.lost'), {
