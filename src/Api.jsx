@@ -5,14 +5,14 @@ import { msgActions } from './store/slices/messagesSlice.js';
 
 const getApi = (socket, store) => {
   const errorMessage = 'errors.network';
-  const REJECT_DELAY = 3000;
+  // const REJECT_DELAY = 3000;
 
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject(errorMessage);
-    }, REJECT_DELAY);
+    // const timer = setTimeout(() => {
+    //   reject(errorMessage);
+    // }, REJECT_DELAY);
     socketFunction(...payload, ({ status }) => {
-      clearTimeout(timer);
+      // clearTimeout(timer);
       if (status === 'ok') {
         resolve();
       }
