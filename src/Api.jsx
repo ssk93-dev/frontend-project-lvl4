@@ -5,7 +5,7 @@ import { msgActions } from './store/slices/messagesSlice.js';
 
 const getApi = (socket, store) => {
   const errorMessage = 'errors.network';
-  const REJECT_DELAY = 5000;
+  const REJECT_DELAY = 3000;
 
   const promisifySocket = (socketFunction) => (...payload) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
