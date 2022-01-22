@@ -10,7 +10,7 @@ import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { getCurrentChannelId, channelsSelectors } from '../store/slices/channelsSlice.js';
-import { messagesSelectors } from '../store/slices/messagesSlice.js';
+import { getChannelMessages } from '../store/slices/messagesSlice.js';
 import { ApiContext, AuthContext } from '../context.jsx';
 
 const MessageForm = () => {
@@ -70,15 +70,14 @@ const MessageForm = () => {
 };
 
 const MessagesBox = () => {
-  const messages = useSelector(messagesSelectors.selectAll);
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector(getCurrentChannelId);
+  const channelMessages = useSelector(getChannelMessages(currentChannelId));
   const currentChannel = _.find(channels, { id: currentChannelId });
-  const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
   const { t } = useTranslation();
   const messagesEndRef = useRef(null);
 
-  useEffect(() => messagesEndRef.current.scrollIntoView({ behavior: 'smooth' }), [messages, currentChannelId]);
+  useEffect(() => messagesEndRef.current.scrollIntoView({ behavior: 'smooth' }), [channelMessages, currentChannelId]);
 
   return (
     <>
