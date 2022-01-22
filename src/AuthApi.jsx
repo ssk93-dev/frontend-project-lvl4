@@ -6,7 +6,8 @@ import { channelsActions } from './store/slices/channelsSlice.js';
 import routes from './routes.js';
 
 const noAuth = { username: null, token: null, isLoggedIn: false };
-const authData = JSON.parse(localStorage.getItem('userId')) ?? noAuth;
+
+const getAuthData = () => JSON.parse(localStorage.getItem('userId')) ?? noAuth;
 
 const getErrorMessage = (error) => {
   if (error.isAxiosError && !error.response) {
@@ -26,7 +27,7 @@ const getErrorMessage = (error) => {
 
 const AuthApi = ({ children }) => {
   const dispatch = useDispatch();
-  const [userId, setUserId] = useState(authData);
+  const [userId, setUserId] = useState(() => getAuthData());
 
   const getAuthHeader = () => {
     if (userId && userId.token) {
