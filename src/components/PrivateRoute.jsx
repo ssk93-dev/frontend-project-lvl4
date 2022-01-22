@@ -4,7 +4,7 @@ import { AuthContext } from '../context.jsx';
 
 const PrivateRoute = ({ children, path }) => {
   const { userId } = useContext(AuthContext);
-  return userId.token ? children : <Redirect to={path} />;
+  return userId.isLoggedIn ? children : <Redirect to={path} />;
 };
 
 export default PrivateRoute;

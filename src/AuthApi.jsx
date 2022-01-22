@@ -5,18 +5,9 @@ import { AuthContext } from './context.jsx';
 import { channelsActions } from './store/slices/channelsSlice.js';
 import routes from './routes.js';
 
-const noAuth = { username: null, token: null };
-const getAuthData = () => {
-  const userId = JSON.parse(localStorage.getItem('userId')) ?? noAuth;
-  return userId;
-};
-const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
-  }
-  return {};
-};
+const noAuth = { username: null, token: null, isLoggedIn: false };
+const authData = JSON.parse(localStorage.getItem('userId')) ?? noAuth;
+
 const getErrorMessage = (error) => {
   if (error.isAxiosError && !error.response) {
     return 'errors.network';
@@ -32,27 +23,40 @@ const getErrorMessage = (error) => {
   }
   return 'errors.unknown';
 };
+
 const AuthApi = ({ children }) => {
   const dispatch = useDispatch();
-  const [userId, setUserId] = useState(getAuthData());
+  const [userId, setUserId] = useState(authData);
+
+  const getAuthHeader = () => {
+    if (userId && userId.token) {
+      return { Authorization: `Bearer ${userId.token}` };
+    }
+    return {};
+  };
+
   const logIn = async ({ username, password }) => {
     try {
       const { data } = await axios.post(routes.loginPath(), { username, password });
-      localStorage.setItem('userId', JSON.stringify(data));
-      setUserId(data);
+      const userData = { ...data, isLoggedIn: true };
+      localStorage.setItem('userId', JSON.stringify(userData));
+      setUserId(userData);
     } catch (err) {
       throw getErrorMessage(err);
     }
   };
+
   const signUp = async ({ username, password }) => {
     try {
       const { data } = await axios.post(routes.signupPath(), { username, password });
-      localStorage.setItem('userId', JSON.stringify(data));
-      setUserId(data);
+      const userData = { ...data, isLoggedIn: true };
+      localStorage.setItem('userId', JSON.stringify(userData));
+      setUserId(userData);
     } catch (err) {
       throw getErrorMessage(err);
     }
   };
+
   const signOut = () => {
     localStorage.setItem('userId', JSON.stringify(noAuth));
     setUserId(noAuth);
@@ -62,9 +66,13 @@ const AuthApi = ({ children }) => {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       dispatch(channelsActions.initChannels(data));
     } catch (err) {
+      if (err.response.status === 401) {
+        signOut();
+      }
       throw getErrorMessage(err);
     }
   };
+
   return (
     <AuthContext.Provider value={{
       logIn, signUp, signOut, loadUserData, userId,
